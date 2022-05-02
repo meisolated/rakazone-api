@@ -5,6 +5,7 @@ import { GetLiveData, GetRedirectList, GetUserData } from "./database/db_functio
 import main from "./updaters.js"
 import favicon from "serve-favicon"
 import path from "path"
+import LoggerUtil from "./util/logger.js"
 
 import { fileURLToPath } from "url"
 import { dirname } from "path"
@@ -13,13 +14,15 @@ export const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
 
 var data = { livedata: {}, userdata: {}, redirectdata: {}, somevideos: {} }
-setTimeout(async () => {
-    await main()
+setInterval(async () => {
+    await main().catch((err) => console.log("Error in main: " + err))
     data["livedata"] = await GetLiveData()
     data["userdata"] = await GetUserData()
     data["redirectdata"] = await GetRedirectList()
     data["somevideos"] = await getSortedVideos()
-}, 30000)
+
+}, 1000)
+
 
 /**
  * Response Success
@@ -61,6 +64,8 @@ app.use("/api/v1/somevideos", async (req, res) => {
 })
 
 app.use("/api/v1/all", async (req, res) => {
+    var host = req.socket.remoteAddress
+    LoggerUtil.info(`${host} requested all data`)
     formatResponseSuccess(res, { livedata: data["livedata"], userdata: data["userdata"], somevideos: data["somevideos"] })
 })
 
@@ -74,4 +79,14 @@ app.use((err, req, res, next) => {
     return
 })
 
-app.listen(3000, () => console.log(`Example app listening on port ${3000}!`))
+app.listen(3000, () => LoggerUtil.info(`Example app listening on port ${3000}!`))
+
+
+
+/** 
+ * USERDATA =  /api/v1/userdata/   [all userdata from server]
+ * REDIRECTDATA =  /api/v1/redirectdata/    [all redirect data from server]
+ * LIVEDATA =  /api/v1/livedata/    [all live data from server]
+ * CONTENT = /api/v1/content/    {main: {}, primary: {}, secondary: {}}
+ * 
+ */

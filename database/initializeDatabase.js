@@ -12,7 +12,7 @@ pool.query(`INSERT INTO ${tableName} (apikey, utilization) VALUES (?, ?)`, ["AIz
 //inset empty in live
 tableName = "tbl_live"
 pool.query(`truncate ${tableName}`)
-pool.query(`INSERT INTO ${tableName} (platform, link, title, thumbnail, viewers_count, status, last_update) VALUES (?, ?, ?, ?, ?, ?, ?)`, ["youtube", "nothing", "nothing", 0, "notlive", 0, 0])
+pool.query(`INSERT INTO ${tableName} (platform, link, title, thumbnail, viewers_count, status, last_update) VALUES (?, ?, ?, ?, ?, ?, ?)`, ["youtube", "nothing", "nothing", 0, "offline", 0, 0])
 
 //insert in redirects
 tableName = "tbl_redirects"

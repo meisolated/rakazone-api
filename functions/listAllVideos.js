@@ -4,7 +4,7 @@ import { youtube_channel_video_statistics } from "./apiTemplates.js"
 import { sleep, throwError } from "./funtions.js"
 import moment from "moment"
 
-let api_key = "AIzaSyALAvUhRu5F1uSIBaCidbRCUfaQ1hgppdk"
+let api_key = await GetApiKeys().then((data) => data[0].api_key)
 let first = 0
 let videos_count = 0
 async function get_videos(pageToken, api_key) {
@@ -12,15 +12,15 @@ async function get_videos(pageToken, api_key) {
     first = 1
     let q = `https://www.googleapis.com/youtube/v3/search?key=${api_key}&channelId=UCRj_BU95SebaRi2FziXEoTg&part=snippet,id&order=date&maxResults=50`
     let request = pageToken ? q + `&pageToken=${pageToken}` : q
-
+    console.log("Added " + videos_count + " videos")
     //get all videos
     axios
         .get(request)
         .then(async (data) => {
             let _data = data.data.items
-
+            let videos = _data.filter((video) => video.id.kind === "youtube#video")
             await Promise.all(
-                _data.map(async (video) => {
+                videos.map(async (video) => {
                     //now for each video get that video other detials
                     axios
                         .get(youtube_channel_video_statistics(video.id.videoId, api_key))
@@ -40,7 +40,7 @@ async function get_videos(pageToken, api_key) {
                             video_data["title"] = video.snippet.title
                             video_data["type"] = type
                             video_data["publishedAt"] = video.snippet.publishedAt
-                            video_data["duration"] = final_data.contentDetails.duration
+                            video_data["duration"] = final_duration
                             video_data["viewCount"] = final_data.statistics.viewCount
                             video_data["likeCount"] = final_data.statistics.likeCount
                             video_data["commentCount"] = final_data.statistics.commentCount
@@ -59,4 +59,4 @@ async function get_videos(pageToken, api_key) {
         .catch((err) => throwError(err + " videos list error"))
 }
 
-get_videos(undefined, api_key)
+await get_videos(undefined, api_key)

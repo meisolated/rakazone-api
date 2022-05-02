@@ -52,7 +52,6 @@ export const GetTwitterUserData = () =>
 export const GetInstagramUserData = () =>
     new Promise(async (resolve) => {
         getInstagramData().then((data) => {
-            console.log(data)
             return resolve({ insta_followers_count: data.graphql.user.edge_followed_by.count }) // data.graphql.user.edge_followed_by.count
         })
     })

@@ -5,15 +5,16 @@ import { GetLocoUserData, GetYoutubeUserData } from "./handler/GetUserData.js"
 import LoggerUtil from "./util/logger.js"
 
 
-async function updateLiveViewersCount(liveData, apikeys) {
-    LoggerUtil.info("Updating live viewers count")
+async function updateLiveViewersCount(liveData, apikey) {
+    // LoggerUtil.info("Updating live viewers count")
 
     let currentTime = Date.now()
-    let UpdateCurrentViewers = (liveData.platform === "youtube") ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikeys.api_key).then((data) => data.items[0].liveStreamingDetails != undefined ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "offline" } : { viewers_count: 0, status: "notlive" }) : await CheckLoco()
+    let UpdateCurrentViewers = (liveData.platform === "youtube") ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikey).then((data) => data.items[0].liveStreamingDetails.concurrentViewers != undefined ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "live" } : { viewers_count: 0, status: "offline" }) : await CheckLoco()
     UpdateCurrentViewers.last_update = currentTime
     let UpdateLive = Object.assign(liveData, UpdateCurrentViewers)
     return await UpdateLiveData(UpdateLive).then(() => {
-        LoggerUtil.info("Updated live data")
+        // LoggerUtil.info("Updated live data")
+        return
     })
 }
 
@@ -25,18 +26,18 @@ export default async function main() {
         //Update live stream data
         let liveData = await GetLiveData().then((data) => data[0])
 
-        let apikeys = await GetApiKeys().then((data) => data[0])
+        let apikey = await GetApiKeys().then((data) => data[0].api_key)
 
         let settings = await GetSettings().then((data) => data[0])
 
         let currentTime = Date.now()
 
-        let updateLiveViewersCount_EMPTYDATA = (liveData.last_update + settings.check_in_if_live < currentTime) ? updateLiveViewersCount(liveData, apikeys) : null
+        if (liveData.last_update + settings.check_in_if_live < currentTime) updateLiveViewersCount(liveData, apikey)
 
         // Update or not
-        LoggerUtil.info("Checking if live data needs to be updated")
+        // LoggerUtil.info("Checking if live data needs to be updated")
         if (liveData.last_update + settings.check_in < currentTime) {
-            LoggerUtil.info("Live data needs to be updated")
+            // LoggerUtil.info("Live data needs to be updated")
             if (liveData.status !== "live") {
                 let checkingYoutube = await CheckYoutube()
                 let checkingLoco = await CheckLoco()
@@ -46,35 +47,35 @@ export default async function main() {
                 //Update live data
                 let UpdateCurrentViewers =
                     liveData.platform === "youtube"
-                        ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikeys.api_key).then((data) =>
-                            data.items[0].liveStreamingDetails != undefined ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "offline" } : { viewers_count: 0, status: "notlive" }
+                        ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikey).then((data) =>
+                            data.items[0].liveStreamingDetails != undefined ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "live" } : { viewers_count: 0, status: "offline" }
                         )
                         : await CheckLoco()
 
                 UpdateCurrentViewers.last_update = currentTime
                 let UpdateLive = Object.assign(liveData, UpdateCurrentViewers)
                 await UpdateLiveData(UpdateLive).then(() => {
-                    LoggerUtil.info("Updated live data")
+                    // LoggerUtil.info("Updated live data")
                 })
             }
         } else {
-            LoggerUtil.info("Not updating live data")
+            // LoggerUtil.info("Not updating live data")
 
         }
 
-        LoggerUtil.info("Checking if user data needs to be updated")
+        // LoggerUtil.info("Checking if user data needs to be updated")
         if (userData.last_update + settings.update_user_data_duration < currentTime) {
-            LoggerUtil.info("User data needs to be updated")
+            // LoggerUtil.info("User data needs to be updated")
             let getYoutubeUserData = await GetYoutubeUserData()
             let getLocoUserData = await GetLocoUserData()
 
             let finalUserData = Object.assign(getLocoUserData, getYoutubeUserData)
             finalUserData = Object.assign(userData, finalUserData)
             await UpdateUserData(finalUserData).then(() => {
-                LoggerUtil.info("Updated user data")
+                // LoggerUtil.info("Updated user data")
             })
         } else {
-            LoggerUtil.info("Not updating user data")
+            // LoggerUtil.info("Not updating user data")
         }
 
 

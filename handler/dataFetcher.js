@@ -1,4 +1,4 @@
-import { UpdateApiUtilization } from "../database/db_functions.js"
+import { GetSettings, UpdateApiUtilization } from "../database/db_functions.js"
 import { instagram_user_data, youtube_channel_live_stream_viewers_count, youtube_channel_statistics, youtube_channel_video_list } from "../functions/apiTemplates.js"
 import { axios_simple_get } from "../functions/axios.js"
 import { throwError } from "../functions/funtions.js"
@@ -7,6 +7,7 @@ import { load } from "cheerio"
 import { youtube_watch_video, youtube_channel_video_thumbnail_maxresdefault, default_thumbnail } from "../functions/urlTemplates.js"
 import { GetOrderBy } from "../database/poolify.js"
 import { Get } from "../database/poolify.js"
+import { AddNewVideos } from "../functions/updateVideosList.js"
 
 //? YOUTUBE
 
@@ -16,7 +17,7 @@ let emptydata = {
     link: "dk",
     thumbnail: "dk",
     viewers_count: 0,
-    status: "notlive",
+    status: "offline",
     last_update: Date.now(),
 }
 
@@ -55,7 +56,6 @@ export const getYoutubeCurrentViewers = (video_id, apiKey) => new Promise(async 
     let url = youtube_channel_live_stream_viewers_count(video_id, apiKey)
     // data.items[0].liveStreamingDetails.concurrentViewers 
     axios_simple_get(url).then((data) => {
-        console.log(data)
         resolve(data)
     }).catch((err) => reject(throwError(err)))
 })
@@ -81,8 +81,9 @@ export const getSortedVideos = () => new Promise(async (reslove, reject) => {
  */
 export const getYoutubeLiveData = (channelId, apiKey) => new Promise(async (resolve) => {
     let videos_list = await getYoutubeVidoesList(channelId, apiKey).catch((err) => console.log(err))
+    //update vidoes list in database aswell 
+    await AddNewVideos(videos_list.items)
     let isLive = videos_list.items.filter((videos) => (videos.snippet.liveBroadcastContent === "live" || videos.snippet.liveBroadcastContent === "upcoming") && videos.id.kind === "youtube#video")
-
     if (isLive.length > 0) {
         let viewers = await getYoutubeCurrentViewers(isLive[0].id.videoId, apiKey).then((data) => data.items[0].liveStreamingDetails.concurrentViewers).catch((err) => throwError(err))
         let data = {
@@ -140,6 +141,7 @@ export const getLocoData = (loco_channel_url) => new Promise(async (resolve, rej
 export const getLocoLiveData = (loco_channel_url) => new Promise(async (resolve) => {
     requestPromise(loco_channel_url)
         .then(async (html) => {
+            let settings = await GetSettings().then(data => data[0])
             let $ = load(html)
             let data = $("div > div.css-8238fg").text()
 
@@ -151,10 +153,10 @@ export const getLocoLiveData = (loco_channel_url) => new Promise(async (resolve)
                 let viewers_count = $("div > div.css-pl8wq5").text()
 
                 let data = {
-                    title: title,
+                    title: (title.length < 10 ? settings.default_title : title),
                     platform: "loco",
                     link: loco_channel_url,
-                    thumbnail: default_thumbnail(),
+                    thumbnail: settings.default_thumbnail,
                     viewers_count: (viewers_count.split(" ")[0] || 0),
                     status: "live",
                     last_update: Date.now(),
