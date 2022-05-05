@@ -61,14 +61,15 @@ export const getYoutubeCurrentViewers = (video_id, apiKey) => new Promise(async 
 })
 
 export const getSortedVideos = () => new Promise(async (reslove, reject) => {
-    let mostViewed = await GetOrderBy("tbl_videos", "viewCount DESC LIMIT 1").then(data => data)
-    let mostLiked = await GetOrderBy("tbl_videos", "likeCount DESC LIMIT 1").then(data => data)
-    let mostCommented = await GetOrderBy("tbl_videos", "commentCount DESC LIMIT 1").then(data => data)
+    let recent = await GetOrderBy("tbl_videos", "publishedAt DESC LIMIT 1").then(data => data)
+    let mostViewed = await GetOrderBy("tbl_videos", "viewCount DESC LIMIT 5").then(data => data)
+    let mostLiked = await GetOrderBy("tbl_videos", "likeCount DESC LIMIT 5").then(data => data)
+    let mostCommented = await GetOrderBy("tbl_videos", "commentCount DESC LIMIT 5").then(data => data)
     let funny = await Get("tbl_videos", "type = 'funny'   ORDER BY viewCount DESC LIMIT 5").then(data => data)
     let montage = await Get("tbl_videos", "type = 'montage'   ORDER BY viewCount DESC LIMIT 1").then(data => data)
     let vlogs = await Get("tbl_videos", "type = 'vlog'  ORDER BY viewCount DESC LIMIT 5").then(data => data)
     let shorts = await Get("tbl_videos", "type = 'shorts'   ORDER BY viewCount DESC LIMIT 5").then(data => data)
-    return reslove({ mostLiked, mostViewed, mostCommented, funny, montage, vlogs, shorts })
+    return reslove({ recent, mostLiked, mostViewed, mostCommented, funny, montage, vlogs, shorts })
 })
 
 
@@ -83,7 +84,7 @@ export const getYoutubeLiveData = (channelId, apiKey) => new Promise(async (reso
     let videos_list = await getYoutubeVidoesList(channelId, apiKey).catch((err) => console.log(err))
     //update vidoes list in database aswell 
     await AddNewVideos(videos_list.items)
-    let isLive = videos_list.items.filter((videos) => (videos.snippet.liveBroadcastContent === "live" || videos.snippet.liveBroadcastContent === "upcoming") && videos.id.kind === "youtube#video")
+    let isLive = videos_list.items.filter((videos) => (videos.snippet.liveBroadcastContent === "live" || videos.snippet.liveBroadcastContent === "upcoming" && videos.id.kind === "youtube#video"))
     if (isLive.length > 0) {
         let viewers = await getYoutubeCurrentViewers(isLive[0].id.videoId, apiKey).then((data) => data.items[0].liveStreamingDetails.concurrentViewers).catch((err) => throwError(err))
         let data = {

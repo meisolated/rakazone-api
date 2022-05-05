@@ -28,6 +28,7 @@ export const CheckYoutube = () =>
  */
 export const CheckLoco = () =>
     new Promise(async (resolve, reject) => {
+
         let loco_username = await GetUserData().then((data) => data[0].loco_username)
         let loco_channel_url = loco_channel(loco_username)
         let liveData = await getLocoLiveData(loco_channel_url)

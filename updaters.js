@@ -4,12 +4,18 @@ import { CheckYoutube, CheckLoco } from "./handler/GetLiveStatus.js"
 import { GetLocoUserData, GetYoutubeUserData } from "./handler/GetUserData.js"
 import LoggerUtil from "./util/logger.js"
 
-
 async function updateLiveViewersCount(liveData, apikey) {
     // LoggerUtil.info("Updating live viewers count")
 
     let currentTime = Date.now()
-    let UpdateCurrentViewers = (liveData.platform === "youtube") ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikey).then((data) => data.items[0].liveStreamingDetails.concurrentViewers != undefined ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "live" } : { viewers_count: 0, status: "offline" }) : await CheckLoco()
+    let UpdateCurrentViewers =
+        liveData.platform === "youtube"
+            ? await getYoutubeCurrentViewers(liveData.link.split("=")[1], apikey).then((data) =>
+                data.items[0].liveStreamingDetails.concurrentViewers != undefined
+                    ? { viewers_count: data.items[0].liveStreamingDetails.concurrentViewers, status: "live" }
+                    : { viewers_count: 0, status: "offline", platform: "none" }
+            )
+            : await CheckLoco()
     UpdateCurrentViewers.last_update = currentTime
     let UpdateLive = Object.assign(liveData, UpdateCurrentViewers)
     return await UpdateLiveData(UpdateLive).then(() => {
@@ -32,18 +38,22 @@ export default async function main() {
 
         let currentTime = Date.now()
 
-        if (liveData.last_update + settings.check_in_if_live < currentTime) updateLiveViewersCount(liveData, apikey)
+        if (liveData.last_update + settings.check_in_if_live < currentTime) {
+            updateLiveViewersCount(liveData, apikey)
+        }
 
         // Update or not
         // LoggerUtil.info("Checking if live data needs to be updated")
         if (liveData.last_update + settings.check_in < currentTime) {
             // LoggerUtil.info("Live data needs to be updated")
             if (liveData.status !== "live") {
+                // LoggerUtil.info("Live data is not live so checking")
                 let checkingYoutube = await CheckYoutube()
                 let checkingLoco = await CheckLoco()
                 let whereLiveData = checkingLoco.status === "live" ? checkingLoco : checkingYoutube
                 await UpdateLiveData(whereLiveData)
             } else if (liveData.status === "live") {
+
                 //Update live data
                 let UpdateCurrentViewers =
                     liveData.platform === "youtube"
@@ -60,7 +70,6 @@ export default async function main() {
             }
         } else {
             // LoggerUtil.info("Not updating live data")
-
         }
 
         // LoggerUtil.info("Checking if user data needs to be updated")
@@ -78,8 +87,7 @@ export default async function main() {
             // LoggerUtil.info("Not updating user data")
         }
 
-
-        //Update tbl_content every week maybe or something  
+        //Update tbl_content every week maybe or something
 
         resolve()
     })

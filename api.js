@@ -31,7 +31,9 @@ setInterval(async () => {
  * @param {string} [message='Success']
  * @returns response
  */
-export function formatResponseSuccess(response, data, message = "success", status = 200) {
+export function formatResponseSuccess(req, response, data, message = "success", status = 200) {
+    // var host = req.socket.remoteAddress
+    // LoggerUtil.info(`${host} requested all data`)
     // define success response schema
     const responseData = {
         message,
@@ -49,24 +51,22 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.use("/api/v1/livedata", async (req, res) => {
-    formatResponseSuccess(res, data["livedata"])
+    formatResponseSuccess(req, res, data["livedata"])
 })
 
 app.use("/api/v1/redirectdata", async (req, res) => {
-    formatResponseSuccess(res, data["redirectdata"])
+    formatResponseSuccess(req, res, data["redirectdata"])
 })
 
 app.use("/api/v1/userdata", async (req, res) => {
-    formatResponseSuccess(res, data["userdata"])
+    formatResponseSuccess(req, res, data["userdata"])
 })
 app.use("/api/v1/somevideos", async (req, res) => {
-    formatResponseSuccess(res, data["somevideos"])
+    formatResponseSuccess(req, res, data["somevideos"])
 })
 
 app.use("/api/v1/all", async (req, res) => {
-    var host = req.socket.remoteAddress
-    LoggerUtil.info(`${host} requested all data`)
-    formatResponseSuccess(res, { livedata: data["livedata"], userdata: data["userdata"], somevideos: data["somevideos"] })
+    formatResponseSuccess(req, res, { livedata: data["livedata"], userdata: data["userdata"], somevideos: data["somevideos"] })
 })
 
 

@@ -32,6 +32,8 @@ async function get_videos(pageToken, api_key) {
                                 return process.exit()
                             }
                             let final_duration = moment.duration(final_data.contentDetails.duration).asSeconds()
+                            let publishedAt = Math.floor(new Date(video.snippet.publishedAt).getTime() / 1000)
+
                             let type = final_duration <= 60 ? "shorts" : final_duration <= 300 ? "montage" : final_duration > 300 && final_duration <= 1200 ? "funny" : (final_duration > 1200 && final_duration < 3600) ? "series" : "live_stream"
 
                             type = video.snippet.title.toLowerCase().includes("vlog") || video.snippet.title.toLowerCase().includes("vlogging") ? "vlog" : type
@@ -39,7 +41,7 @@ async function get_videos(pageToken, api_key) {
                             video_data["videoId"] = video.id.videoId
                             video_data["title"] = video.snippet.title
                             video_data["type"] = type
-                            video_data["publishedAt"] = video.snippet.publishedAt
+                            video_data["publishedAt"] = publishedAt
                             video_data["duration"] = final_duration
                             video_data["viewCount"] = final_data.statistics.viewCount
                             video_data["likeCount"] = final_data.statistics.likeCount
