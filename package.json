@@ -11,6 +11,8 @@
   "moment": "^2.29.1",
   "morgan": "^1.10.0",
   "mysql2": "^2.3.3",
+  "node-cache": "^5.1.2",
+  "node-schedule": "^2.1.0",
   "puppeteer": "^13.5.1",
   "request": "^2.88.2",
   "request-promise": "^4.2.6",
@@ -24,6 +26,7 @@
  "main": "index.js",
  "type": "module",
  "scripts": {
+  "start": "pm2 start api.js --name rakazone_backend_api && pm2 start scheduledTasks.js --name rakazone_backend_api_scheduledTask --env production",
   "test": "echo \"Error: no test specified\" && exit 1"
  },
  "keywords": [],

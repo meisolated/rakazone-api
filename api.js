@@ -1,28 +1,16 @@
 import express, { json, urlencoded } from "express"
 import cookieParser from "cookie-parser"
 import logger from "morgan"
-import { GetLiveData, GetRedirectList, GetUserData } from "./database/db_functions.js"
-import main from "./updaters.js"
 import favicon from "serve-favicon"
 import path from "path"
-import LoggerUtil from "./util/logger.js"
+import { Cache } from "./cache/index.js"
+let port = 3000
+let apiVersion = "v1"
 
 import { fileURLToPath } from "url"
 import { dirname } from "path"
-import { getSortedVideos } from "./handler/dataFetcher.js"
 export const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
-
-var data = { livedata: {}, userdata: {}, redirectdata: {}, somevideos: {} }
-setInterval(async () => {
-    await main().catch((err) => console.log("Error in main: " + err))
-    data["livedata"] = await GetLiveData()
-    data["userdata"] = await GetUserData()
-    data["redirectdata"] = await GetRedirectList()
-    data["somevideos"] = await getSortedVideos()
-
-}, 1000)
-
 
 /**
  * Response Success
@@ -31,9 +19,11 @@ setInterval(async () => {
  * @param {string} [message='Success']
  * @returns response
  */
-export function formatResponseSuccess(req, response, data, message = "success", status = 200) {
-    // var host = req.socket.remoteAddress
-    // LoggerUtil.info(`${host} requested all data`)
+
+
+
+
+function formatResponseSuccess(response, data, message = "Success", status = 200) {
     // define success response schema
     const responseData = {
         message,
@@ -44,33 +34,37 @@ export function formatResponseSuccess(req, response, data, message = "success", 
 
 const app = express()
 
+
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
 app.use(logger("dev"))
 app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use("/api/v1/livedata", async (req, res) => {
-    formatResponseSuccess(req, res, data["livedata"])
+
+
+app.use(`/api/${apiVersion}/streamerData`, async (req, res) => {
+    formatResponseSuccess(res, { streamerData: Cache.get('streamerData') })
 })
 
-app.use("/api/v1/redirectdata", async (req, res) => {
-    formatResponseSuccess(req, res, data["redirectdata"])
-})
-
-app.use("/api/v1/userdata", async (req, res) => {
-    formatResponseSuccess(req, res, data["userdata"])
-})
-app.use("/api/v1/somevideos", async (req, res) => {
-    formatResponseSuccess(req, res, data["somevideos"])
-})
-
-app.use("/api/v1/all", async (req, res) => {
-    formatResponseSuccess(req, res, { livedata: data["livedata"], userdata: data["userdata"], somevideos: data["somevideos"] })
+app.use(`/api/${apiVersion}/redirects`, async (req, res) => {
+    formatResponseSuccess(res, { redirects: Cache.get('redirects') })
 })
 
 
 
+
+
+
+
+
+
+
+
+
+app.use("/", async (req, res) => {
+    res.status(404).json({ status: 404 })
+})
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500
@@ -79,14 +73,4 @@ app.use((err, req, res, next) => {
     return
 })
 
-app.listen(3000, () => LoggerUtil.info(`Example app listening on port ${3000}!`))
-
-
-
-/** 
- * USERDATA =  /api/v1/userdata/   [all userdata from server]
- * REDIRECTDATA =  /api/v1/redirectdata/    [all redirect data from server]
- * LIVEDATA =  /api/v1/livedata/    [all live data from server]
- * CONTENT = /api/v1/content/    {main: {}, primary: {}, secondary: {}}
- * 
- */
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
