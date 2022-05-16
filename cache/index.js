@@ -3,7 +3,10 @@ import { StreamerData } from "../models/StreamerData.model.js"
 import { Redirects } from "../models/Redirects.model.js"
 import { GetSortedVideos } from "../handler/GetSortedVideos.js"
 import NodeCache from 'node-cache'
+import LoggerUtil from "../util/logger.js"
 const Cache = new NodeCache({ stdTTL: 100, checkperiod: 120 })
+
+LoggerUtil.info("Initializing Cache")
 
 //initilize cache 
 let _dataStreamerData = {}

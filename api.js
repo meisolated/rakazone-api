@@ -4,6 +4,8 @@ import logger from "morgan"
 import favicon from "serve-favicon"
 import path from "path"
 import { Cache } from "./cache/index.js"
+import { scheduledTasks } from "./scheduledTasks.js"
+scheduledTasks(Cache)
 let port = 3000
 let apiVersion = "v1"
 
@@ -51,13 +53,13 @@ app.use(`/api/${apiVersion}/redirects`, async (req, res) => {
     formatResponseSuccess(res, { redirects: Cache.get('redirects') })
 })
 
+app.use(`/api/${apiVersion}/liveData`, async (req, res) => {
+    formatResponseSuccess(res, { liveData: Cache.get('liveData') })
+})
 
-
-
-
-
-
-
+app.use(`/api/${apiVersion}/sortedVideos`, async (req, res) => {
+    formatResponseSuccess(res, { sortedVideos: Cache.get('sortedVideos') })
+})
 
 
 
