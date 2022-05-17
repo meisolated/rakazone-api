@@ -1,23 +1,24 @@
 {
  "dependencies": {
   "cookie-parser": "^1.4.6",
-  "dotenv": "^16.0.0",
+  "dotenv": "^16.0.1",
   "express": "^4.17.3",
+  "helmet": "^5.0.2",
   "lodash": "^4.17.21",
   "moment": "^2.29.1",
   "morgan": "^1.10.0",
   "mysql2": "^2.3.3",
   "sequelize": "^6.19.0",
   "serve-favicon": "^2.5.0",
-  "unicodechar-string": "^1.0.0"
+  "unicodechar-string": "^1.0.0",
+  "winston": "^3.7.2"
  },
  "name": "rakazone_backend_api",
  "version": "1.0.0",
  "main": "index.js",
  "type": "module",
  "scripts": {
-  "start": "pm2 start api.js --name rakazone_backend_api && pm2 start scheduledTasks.js --name rakazone_backend_api_scheduledTask --env production",
-  "test": "echo \"Error: no test specified\" && exit 1"
+  "dev": "nodemon api.js"
  },
  "keywords": [],
  "author": "",
@@ -25,6 +26,7 @@
  "description": "",
  "devDependencies": {
   "@types/cookie-parser": "^1.4.2",
-  "@types/express": "^4.17.13"
+  "@types/express": "^4.17.13",
+  "nodemon": "^2.0.16"
  }
 }

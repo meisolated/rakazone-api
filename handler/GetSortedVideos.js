@@ -1,61 +1,62 @@
-import { sleep } from "../functions/funtions.js"
 import { Videos } from "../models/Videos.model.js"
 
-export const GetSortedVideos = () => new Promise(async (resolve, reject) => {
-    let limit = 5
-    let mostLikedVideo = await Videos.findAndCountAll({ order: [["likeCount", "DESC"]], limit })
-    let mostViewedVideo = await Videos.findAndCountAll({ order: [["viewCount", "DESC"]], limit })
-    let mostCommentedVideo = await Videos.findAndCountAll({ order: [["commentCount", "DESC"]], limit })
-    let mostRecentVideo = await Videos.findAndCountAll({ order: [["publishedAt", "DESC"]], limit })
-    let mostRecentLiveStream = await Videos.findAndCountAll({ where: { type: "live_stream" }, order: [["publishedAt", "DESC"]], limit })
-    let mostRecentSeries = await Videos.findAndCountAll({ where: { type: "series" }, order: [["publishedAt", "DESC"]], limit })
-    let mostRecentMontage = await Videos.findAndCountAll({ where: { type: "montage" }, order: [["publishedAt", "DESC"]], limit })
-    let mostRecentFunny = await Videos.findAndCountAll({ where: { type: "funny" }, order: [["publishedAt", "DESC"]], limit })
-    let mostRecentShorts = await Videos.findAndCountAll({ where: { type: "shorts" }, order: [["publishedAt", "DESC"]], limit })
-    let mostRecentVlog = await Videos.findAndCountAll({ where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit })
+export const GetSortedVideos = () =>
+    new Promise(async (resolve, reject) => {
+        let limit = 5
+        let _mostLikedVideo = await Videos.findAndCountAll({ order: [["likeCount", "DESC"]], limit })
+        let _mostViewedVideo = await Videos.findAndCountAll({ order: [["viewCount", "DESC"]], limit })
+        let _mostCommentedVideo = await Videos.findAndCountAll({ order: [["commentCount", "DESC"]], limit })
+        let _mostRecentVideo = await Videos.findAndCountAll({ order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentLiveStream = await Videos.findAndCountAll({ where: { type: "live_stream" }, order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentSeries = await Videos.findAndCountAll({ where: { type: "series" }, order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentMontage = await Videos.findAndCountAll({ where: { type: "montage" }, order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentFunny = await Videos.findAndCountAll({ where: { type: "funny" }, order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentShorts = await Videos.findAndCountAll({ where: { type: "shorts" }, order: [["publishedAt", "DESC"]], limit })
+        let _mostRecentVlog = await Videos.findAndCountAll({ where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit })
 
-    let _mostLikedVideo = []
-    let _mostViewedVideo = []
-    let _mostCommentedVideo = []
-    let _mostRecentVideo = []
-    let _mostRecentLiveStream = []
-    let _mostRecentSeries = []
-    let _mostRecentMontage = []
-    let _mostRecentFunny = []
-    let _mostRecentShorts = []
-    let _mostRecentVlog = []
+        let mostLikedVideo = []
+        let mostViewedVideo = []
+        let mostCommentedVideo = []
+        let mostRecentVideo = []
+        let mostRecentLiveStream = []
+        let mostRecentSeries = []
+        let mostRecentMontage = []
+        let mostRecentFunny = []
+        let mostRecentShorts = []
+        let mostRecentVlog = []
 
-    mostLikedVideo = mostLikedVideo.rows.forEach(video => {
-        _mostLikedVideo.push(video.dataValues)
-    })
-    mostViewedVideo = mostViewedVideo.rows.forEach(video => {
-        _mostViewedVideo.push(video.dataValues)
-    })
-    mostCommentedVideo = mostCommentedVideo.rows.forEach(video => {
-        _mostCommentedVideo.push(video.dataValues)
-    })
-    mostRecentVideo = mostRecentVideo.rows.forEach(video => {
-        _mostRecentVideo.push(video.dataValues)
-    })
-    mostRecentLiveStream = mostRecentLiveStream.rows.forEach(video => {
-        _mostRecentLiveStream.push(video.dataValues)
-    })
-    mostRecentSeries = mostRecentSeries.rows.forEach(video => {
-        _mostRecentSeries.push(video.dataValues)
-    })
-    mostRecentMontage = mostRecentMontage.rows.forEach(video => {
-        _mostRecentMontage.push(video.dataValues)
-    })
-    mostRecentFunny = mostRecentFunny.rows.forEach(video => {
-        _mostRecentFunny.push(video.dataValues)
-    })
-    mostRecentShorts = mostRecentShorts.rows.forEach(video => {
-        _mostRecentShorts.push(video.dataValues)
-    })
-    mostRecentVlog = mostRecentVlog.rows.forEach(video => {
-        _mostRecentVlog.push(video.dataValues)
-    })
+        _mostLikedVideo.rows.forEach((video) => {
+            mostLikedVideo.push(video.dataValues)
+        })
+        _mostViewedVideo.rows.forEach((video) => {
+            mostViewedVideo.push(video.dataValues)
+        })
+        _mostCommentedVideo.rows.forEach((video) => {
+            mostCommentedVideo.push(video.dataValues)
+        })
+        _mostRecentVideo.rows.forEach((video) => {
+            mostRecentVideo.push(video.dataValues)
+        })
+        _mostRecentLiveStream.rows.forEach((video) => {
+            mostRecentLiveStream.push(video.dataValues)
+        })
+        _mostRecentSeries.rows.forEach((video) => {
+            mostRecentSeries.push(video.dataValues)
+        })
+        _mostRecentMontage.rows.forEach((video) => {
+            mostRecentMontage.push(video.dataValues)
+        })
+        _mostRecentFunny.rows.forEach((video) => {
+            mostRecentFunny.push(video.dataValues)
+        })
+        _mostRecentShorts.rows.forEach((video) => {
+            mostRecentShorts.push(video.dataValues)
+        })
+        _mostRecentVlog.rows.forEach((video) => {
+            mostRecentVlog.push(video.dataValues)
+        })
 
-    resolve({ _mostLikedVideo, _mostViewedVideo, _mostCommentedVideo, _mostRecentVideo, _mostRecentLiveStream, _mostRecentSeries, _mostRecentMontage, _mostRecentFunny, _mostRecentShorts, _mostRecentVlog })
-}
-)
+        resolve({
+            mostLikedVideo, mostViewedVideo, mostCommentedVideo, mostRecentVideo, mostRecentLiveStream, mostRecentSeries, mostRecentMontage, mostRecentFunny, mostRecentShorts, mostRecentVlog,
+        })
+    })
