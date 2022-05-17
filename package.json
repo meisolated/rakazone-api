@@ -1,25 +1,15 @@
 {
  "dependencies": {
-  "axios": "^0.26.1",
-  "cheerio": "^1.0.0-rc.10",
   "cookie-parser": "^1.4.6",
   "dotenv": "^16.0.0",
   "express": "^4.17.3",
-  "got": "^12.0.3",
   "lodash": "^4.17.21",
-  "lowdb": "^3.0.0",
   "moment": "^2.29.1",
   "morgan": "^1.10.0",
   "mysql2": "^2.3.3",
-  "node-cache": "^5.1.2",
-  "node-schedule": "^2.1.0",
-  "puppeteer": "^13.5.1",
-  "request": "^2.88.2",
-  "request-promise": "^4.2.6",
   "sequelize": "^6.19.0",
   "serve-favicon": "^2.5.0",
-  "unicodechar-string": "^1.0.0",
-  "winston": "^3.7.2"
+  "unicodechar-string": "^1.0.0"
  },
  "name": "rakazone_backend_api",
  "version": "1.0.0",
