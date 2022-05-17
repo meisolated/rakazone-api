@@ -3,16 +3,17 @@ import cookieParser from "cookie-parser"
 import logger from "morgan"
 import favicon from "serve-favicon"
 import path from "path"
-import { Cache } from "./cache/index.js"
-import { scheduledTasks } from "./scheduledTasks.js"
-scheduledTasks(Cache)
-let port = 3000
-let apiVersion = "v1"
 
 import { fileURLToPath } from "url"
 import { dirname } from "path"
-export const __filename = fileURLToPath(import.meta.url)
-export const __dirname = dirname(__filename)
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const app = express()
+let port = 3000
+let apiVersion = "v1"
+
 
 /**
  * Response Success
@@ -21,10 +22,6 @@ export const __dirname = dirname(__filename)
  * @param {string} [message='Success']
  * @returns response
  */
-
-
-
-
 function formatResponseSuccess(response, data, message = "Success", status = 200) {
     // define success response schema
     const responseData = {
@@ -34,7 +31,6 @@ function formatResponseSuccess(response, data, message = "Success", status = 200
     return response.status(status).json(responseData)
 }
 
-const app = express()
 
 
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
@@ -46,19 +42,19 @@ app.use(cookieParser())
 
 
 app.use(`/api/${apiVersion}/streamerData`, async (req, res) => {
-    formatResponseSuccess(res, { streamerData: Cache.get('streamerData') })
+    formatResponseSuccess(res, { streamerData: {} })
 })
 
 app.use(`/api/${apiVersion}/redirects`, async (req, res) => {
-    formatResponseSuccess(res, { redirects: Cache.get('redirects') })
+    formatResponseSuccess(res, { redirects: {} })
 })
 
 app.use(`/api/${apiVersion}/liveData`, async (req, res) => {
-    formatResponseSuccess(res, { liveData: Cache.get('liveData') })
+    formatResponseSuccess(res, { liveData: {} })
 })
 
 app.use(`/api/${apiVersion}/sortedVideos`, async (req, res) => {
-    formatResponseSuccess(res, { sortedVideos: Cache.get('sortedVideos') })
+    formatResponseSuccess(res, { sortedVideos: {} })
 })
 
 
