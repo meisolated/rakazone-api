@@ -1,6 +1,7 @@
 {
  "dependencies": {
   "cookie-parser": "^1.4.6",
+  "cookie-session": "^2.0.0",
   "dotenv": "^16.0.1",
   "express": "^4.17.3",
   "helmet": "^5.0.2",
