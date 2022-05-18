@@ -19,7 +19,7 @@ const __dirname = dirname(__filename)
 const app = express()
 let apiVersion = "v1"
 app.use(helmet())
-let port = 3000
+let port = 3001
 
 /**
  * Response Success
@@ -39,21 +39,21 @@ app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use(`/api/${apiVersion}/streamerData`, async (req, res) => {
-    formatResponseSuccess(res, { streamerData: await GetStreamerData() })
-})
+// app.use(`/api/${apiVersion}/streamerData`, async (req, res) => {
+//     formatResponseSuccess(res, { streamerData: await GetStreamerData() })
+// })
 
-app.use(`/api/${apiVersion}/redirects`, async (req, res) => {
-    formatResponseSuccess(res, { redirects: await GetRedirects() })
-})
+// app.use(`/api/${apiVersion}/redirects`, async (req, res) => {
+//     formatResponseSuccess(res, { redirects: await GetRedirects() })
+// })
 
-app.use(`/api/${apiVersion}/liveData`, async (req, res) => {
-    formatResponseSuccess(res, { liveData: await GetLiveData() })
-})
+// app.use(`/api/${apiVersion}/liveData`, async (req, res) => {
+//     formatResponseSuccess(res, { liveData: await GetLiveData() })
+// })
 
-app.use(`/api/${apiVersion}/sortedVideos`, async (req, res) => {
-    formatResponseSuccess(res, { sortedVideos: await GetSortedVideos() })
-})
+// app.use(`/api/${apiVersion}/sortedVideos`, async (req, res) => {
+//     formatResponseSuccess(res, { sortedVideos: await GetSortedVideos() })
+// })
 
 app.use("/", async (req, res) => {
     res.status(404).json({ status: 404 })
