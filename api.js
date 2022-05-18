@@ -1,7 +1,6 @@
 import express, { json, urlencoded } from "express"
 import { sleep } from "./functions/funtions.js"
 import cookieParser from "cookie-parser"
-import cookieSession from "cookie-session"
 import path, { dirname } from "path"
 import { fileURLToPath } from "url"
 import favicon from "serve-favicon"
@@ -12,15 +11,17 @@ import "./lib/passport.js"
 import https from "https"
 import "dotenv/config"
 import fs from "fs"
-
+import session from "./helper/session.js"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 let apiVersion = "v1"
 let port = 3001
 
+
 const app = express()
 app.use(helmet())
-app.use(cookieSession({ name: "default", maxAge: 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
+// app.use(cookieSession({ name: "default", maxAge: 30 * 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
+app.use(session)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
@@ -28,6 +29,8 @@ app.use(logger("dev"))
 app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(express.urlencoded({ extended: true, limit: "1kb" }))
+app.use(express.json({ limit: "1kb" }))
 
 
 
