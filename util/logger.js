@@ -34,7 +34,7 @@ LoggerUtil.verbose = (message) => {
 }
 
 LoggerUtil.info = (message) => {
-    logger.log("info", message)
+    // logger.log("info", message)
 }
 
 LoggerUtil.warn = (message) => {

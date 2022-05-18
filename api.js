@@ -20,7 +20,7 @@ let port = 3001
 
 const app = express()
 app.use(helmet())
-app.use(cookieSession({ name: "session", maxAge: 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
+app.use(cookieSession({ name: "default", maxAge: 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))

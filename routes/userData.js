@@ -1,11 +1,10 @@
+import checkLogged from "../helper/checkLogged.js"
 import { formatResponseSuccess, formatResponseError } from "../helper/index.js"
 
-import { GetSortedVideos } from "../handler/GetSortedVideos.js"
-
 export default function (app, path) {
-    app.get(path, async (req, res) => {
+    app.get(path, checkLogged, async (req, res) => {
         try {
-            formatResponseSuccess(res, { sortedVideos: await GetSortedVideos() })
+            formatResponseSuccess(res, { status: "User is logged in " })
         }
         catch (err) {
             formatResponseError(res, err)

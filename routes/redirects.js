@@ -1,5 +1,5 @@
 import { formatResponseSuccess, formatResponseError } from "../helper/index.js"
-import { GetRedirects } from "./handler/GetRedirects.js"
+import { GetRedirects } from "../handler/GetRedirects.js"
 
 
 export default function (app, path) {
