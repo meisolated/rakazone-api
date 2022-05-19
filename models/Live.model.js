@@ -20,13 +20,7 @@ export const Live = sequelize.define(
     },
     {
         timestamps: false,
-    }, {
-    setterMethods: {
-        updateLive(data) {
-            console.log("testing updateLive")
-        }
     }
-}
 )
 
 

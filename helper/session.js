@@ -57,8 +57,8 @@ const session_options = {
     saveUninitialized: false,
     name: "rakazone",
     cookie: {
-        sameSite: true,
-        secure: true,
+        sameSite: false,
+        secure: false,
     }
 }
 
