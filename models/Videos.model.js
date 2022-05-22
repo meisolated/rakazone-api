@@ -10,6 +10,7 @@ export const Videos = sequelize.define("tbl_videos", {
         primaryKey: true,
     },
     videoId: DataTypes.STRING,
+    thumbnail: DataTypes.STRING,
     title: DataTypes.STRING,
     type: DataTypes.STRING,
     publishedAt: DataTypes.INTEGER,

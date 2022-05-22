@@ -1,14 +1,7 @@
-import fetch from 'node-fetch'
-let url = "https://i.ytimg.com/vi/PjNfTFGrDCE/maxresdefault.jpg"
-
-function urlExists(url, callback) {
-    fetch(url, { method: 'head' })
-        .then(function (status) {
-            callback(status.ok)
-        })
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min
 }
 
-urlExists(url, (x) => {
 
-    console.log(x)
-})
+let x = getRandomArbitrary(10, 100)
+console.log(x)

@@ -1,7 +1,8 @@
+import { formatResponseError } from "../helper/index.js"
 export default function (req, res, next) {
     if (req.isAuthenticated() || req.user) {
         next()
     } else {
-        res.redirect("http://localhost:3000/")
+        formatResponseError(res, { message: "You are not logged in", code: 401 })
     }
 }
