@@ -17,7 +17,6 @@ const __dirname = dirname(__filename)
 let apiVersion = "v1"
 let port = 3001
 
-
 const app = express()
 app.use(helmet())
 // app.use(cookieSession({ name: "default", maxAge: 30 * 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
@@ -31,8 +30,6 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
-
-
 
 // Load Routes
 const directoryPath = path.join(__dirname, "routes")
@@ -58,7 +55,6 @@ const listFolder = (folderPath) =>
         reslove()
     })
 await listFolder(directoryPath)
-
 
 app.use("/", async (req, res) => {
     res.status(404).json({ status: 404 })
