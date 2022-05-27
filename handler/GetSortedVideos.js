@@ -3,6 +3,7 @@ import _ from "lodash"
 export const GetSortedVideos = () =>
     new Promise(async (resolve, reject) => {
         let limit = 5
+
         let _mostLikedVideo = await Videos.findAndCountAll({ order: [["likeCount", "DESC"]], limit })
         let _mostViewedVideo = await Videos.findAndCountAll({ order: [["viewCount", "DESC"]], limit })
         let _mostCommentedVideo = await Videos.findAndCountAll({ order: [["commentCount", "DESC"]], limit })
@@ -29,36 +30,47 @@ export const GetSortedVideos = () =>
         let mostRecentIRL = []
 
         _mostLikedVideo.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostLikedVideo.push(video.dataValues)
         })
         _mostViewedVideo.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostViewedVideo.push(video.dataValues)
         })
         _mostCommentedVideo.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostCommentedVideo.push(video.dataValues)
         })
         _mostRecentVideo.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentVideo.push(video.dataValues)
         })
         _mostRecentLiveStream.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentLiveStream.push(video.dataValues)
         })
         _mostRecentSeries.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentSeries.push(video.dataValues)
         })
         _mostRecentMontage.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentMontage.push(video.dataValues)
         })
         _mostRecentFunny.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentFunny.push(video.dataValues)
         })
         _mostRecentShorts.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentShorts.push(video.dataValues)
         })
         _mostRecentVlog.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentVlog.push(video.dataValues)
         })
         _mostRecentIRL.rows.forEach((video) => {
+            video.dataValues.thumbnail = `https://i.ytimg.com/vi/${video.dataValues.videoId}/mqdefault.jpg`
             mostRecentIRL.push(video.dataValues)
         })
 

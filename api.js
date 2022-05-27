@@ -1,6 +1,9 @@
+import { rateLimiterUsingThirdParty } from "./helper/rateLimiter.js"
 import express, { json, urlencoded } from "express"
 import { sleep } from "./functions/funtions.js"
+import session from "./helper/session.js"
 import cookieParser from "cookie-parser"
+import middleware from "./helper/middleware.js"
 import path, { dirname } from "path"
 import { fileURLToPath } from "url"
 import favicon from "serve-favicon"
@@ -8,10 +11,10 @@ import passport from "passport"
 import logger from "morgan"
 import helmet from "helmet"
 import "./lib/passport.js"
-import https from "https"
+// import https from "https"
 import "dotenv/config"
 import fs from "fs"
-import session from "./helper/session.js"
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 let apiVersion = "v1"
@@ -21,6 +24,7 @@ const app = express()
 app.use(helmet())
 // app.use(cookieSession({ name: "default", maxAge: 30 * 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
 app.use(session)
+app.use(rateLimiterUsingThirdParty)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
@@ -30,7 +34,7 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
-
+app.use(middleware)
 // Load Routes
 const directoryPath = path.join(__dirname, "routes")
 const listFolder = (folderPath) =>

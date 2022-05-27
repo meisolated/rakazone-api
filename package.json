@@ -2,9 +2,11 @@
  "dependencies": {
   "cookie-parser": "^1.4.6",
   "cookie-session": "^2.0.0",
+  "cors": "^2.8.5",
   "dotenv": "^16.0.1",
   "express": "^4.17.3",
   "express-mysql-session": "^2.1.8",
+  "express-rate-limit": "^6.4.0",
   "express-session": "^1.17.3",
   "helmet": "^5.0.2",
   "jsonwebtoken": "^8.5.1",
@@ -22,7 +24,7 @@
  },
  "name": "rakazone_backend_api",
  "version": "1.0.0",
- "main": "index.js",
+ "main": "api.js",
  "type": "module",
  "scripts": {
   "dev": "nodemon api.js"
