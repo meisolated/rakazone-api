@@ -1,7 +1,4 @@
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min
-}
+import { PopUp } from "./models/PopUp.model.js"
 
-
-let x = getRandomArbitrary(10, 100)
-console.log(x)
+let x = await PopUp.findAll()
+console.log(x[0].dataValues)
