@@ -70,12 +70,12 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json({ message: err.message })
     return
 })
-// app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
 
-if (process.env.ENV === "production") {
-    https
-        .createServer({ cert: fs.readFileSync("cert/cert.pem"), key: fs.readFileSync("cert/key.pem") }, app)
-        .listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
-} else {
-    app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
-}
+// if (process.env.ENV === "production") {
+//     https
+//         .createServer({ cert: fs.readFileSync("cert/cert.pem"), key: fs.readFileSync("cert/key.pem") }, app)
+//         .listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+// } else {
+//     app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+// }
