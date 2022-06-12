@@ -8,6 +8,7 @@ export const PopUp = sequelize.define(
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
+        type: DataTypes.STRING,
         title: DataTypes.STRING,
         message: DataTypes.STRING,
         close_btn_text: DataTypes.STRING,

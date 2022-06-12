@@ -7,7 +7,7 @@ export default function (app, path) {
         try {
             // { where: { status: "active", id: 1 } }
             let popups = await PopUp.findAll()
-            return formatResponseSuccess(res, { popups: popups[0].dataValues })
+            return formatResponseSuccess(res, { popups: popups })
         } catch (err) {
             formatResponseError(res, err)
         }
