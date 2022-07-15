@@ -11,7 +11,6 @@ import passport from "passport"
 import logger from "morgan"
 import helmet from "helmet"
 import "./lib/passport.js"
-import https from "https"
 import "dotenv/config"
 import fs from "fs"
 
@@ -38,7 +37,7 @@ app.use(middleware)
 // Load Routes
 const directoryPath = path.join(__dirname, "routes")
 const listFolder = (folderPath) =>
-    new Promise(async (reslove, reject) => {
+    new Promise(async (resolve, reject) => {
         fs.readdir(folderPath, function (err, files) {
             if (err) {
                 console.log(err)
@@ -56,7 +55,7 @@ const listFolder = (folderPath) =>
             })
         })
         await sleep(5000)
-        reslove()
+        resolve()
     })
 await listFolder(directoryPath)
 
