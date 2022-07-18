@@ -10,6 +10,7 @@ import favicon from "serve-favicon"
 import passport from "passport"
 import logger from "morgan"
 import helmet from "helmet"
+import hls from "./lib/hls/index.js"
 import "./lib/passport.js"
 import "dotenv/config"
 import fs from "fs"
@@ -44,7 +45,7 @@ const listFolder = (folderPath) =>
             }
             files.forEach(async (file) => {
                 if (file.includes(".js")) {
-                    let route = `/api/${apiVersion}/` + `${folderPath}/${file}`.split("routes/")[1]
+                    let route = `/${apiVersion}/` + `${folderPath}/${file}`.split("routes/")[1]
                     route = route.split(".js")[0]
                     route = route.includes("index") ? route.split("index")[0] : route
                     console.log(`Loading route: ${route}`)
@@ -59,6 +60,8 @@ const listFolder = (folderPath) =>
     })
 await listFolder(directoryPath)
 
+
+
 app.use("/", async (req, res) => {
     res.status(404).json({ status: 404 })
 })
@@ -69,7 +72,36 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json({ message: err.message })
     return
 })
-app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+const server = app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+
+// HLS
+new hls(server, {
+    provider: {
+        exists: (req, cb) => {
+            const ext = req.url.split(".").pop()
+            if (ext !== "m3u8" && ext !== "ts") {
+                return cb(null, true)
+            }
+
+            fs.access(__dirname + req.url, fs.constants.F_OK, function (err) {
+                if (err) {
+                    console.log("File not exist")
+                    return cb(null, false)
+                }
+                cb(null, true)
+            })
+        },
+        getManifestStream: (req, cb) => {
+            const stream = fs.createReadStream(__dirname + req.url)
+            cb(null, stream)
+        },
+        getSegmentStream: (req, cb) => {
+            const stream = fs.createReadStream(__dirname + req.url)
+            cb(null, stream)
+        },
+    },
+})
+
 
 // if (process.env.ENV === "production") {
 //     https

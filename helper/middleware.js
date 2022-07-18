@@ -3,7 +3,7 @@ export default function (req, res, next) {
     if (!req.hostname) {
         return res.sendStatus(404)
     }
-    res.setHeader("Access-Control-Allow-Origin", "raka.zone")
+    res.setHeader("Access-Control-Allow-Origin", "*")
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
 
