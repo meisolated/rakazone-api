@@ -28,7 +28,7 @@
  "main": "api.js",
  "type": "module",
  "scripts": {
-  "dev": "nodemon api.js"
+  "dev": "nodemon src/api.js"
  },
  "keywords": [],
  "author": "",
