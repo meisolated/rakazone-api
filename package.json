@@ -28,7 +28,8 @@
  "main": "api.js",
  "type": "module",
  "scripts": {
-  "dev": "nodemon src/api.js"
+  "dev": "nodemon src/api.js",
+  "install:clean": "rm -rf node_modules/ && rm -rf yarn.lock && yarn"
  },
  "keywords": [],
  "author": "",

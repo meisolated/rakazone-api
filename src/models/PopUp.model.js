@@ -1,5 +1,5 @@
-import sequelize from "./sequelize.js"
 import { DataTypes } from "sequelize"
+import sequelize from "./sequelize.js"
 
 export const PopUp = sequelize.define(
     "tbl_popup",
@@ -8,7 +8,7 @@ export const PopUp = sequelize.define(
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        type: DataTypes.STRING,
+        // type: DataTypes.STRING,
         title: DataTypes.STRING,
         message: DataTypes.STRING,
         close_btn_text: DataTypes.STRING,
