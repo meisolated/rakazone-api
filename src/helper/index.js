@@ -4,6 +4,6 @@ export function formatResponseSuccess(response, data, message = "success", statu
 }
 
 export function formatResponseError(response, err, status = 200) {
-    const responseData = { message: err.message, code: err.code }
+    const responseData = { message: err.message, status: err.status }
     return response.status(status).json(responseData)
 }

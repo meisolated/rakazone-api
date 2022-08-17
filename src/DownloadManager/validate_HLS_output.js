@@ -1,6 +1,6 @@
 import fs from "fs"
 import cp from "child_process"
-import { Videos } from "./models/Videos.model.js"
+import { Videos } from "../models/Videos.model.js"
 // list folders
 const folders = fs.readdirSync("./downloads/output/")
 

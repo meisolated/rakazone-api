@@ -1,9 +1,10 @@
-import { Videos } from "../models/Videos.model.js"
 import _ from "lodash"
-import myCache from "../helper/cache.js"
 import { Op } from "sequelize"
+import myCache from "../helper/cache.js"
+import { Videos } from "../models/Videos.model.js"
 
 
+// TODO: 
 export const GetSortedVideos = () =>
     new Promise(async (resolve, reject) => {
 
@@ -23,7 +24,7 @@ export const GetSortedVideos = () =>
             let _mostRecentShorts = await Videos.findAndCountAll({ where: { type: "shorts" }, order: [["publishedAt", "DESC"]], limit })
             let _mostRecentVlog = await Videos.findAndCountAll({ where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit })
             let _mostRecentIRL = await Videos.findAndCountAll({ where: { type: "irl" }, order: [["publishedAt", "DESC"]], limit })
-            let _under10min = await Videos.findAndCountAll({ where: { duration: { [Op.lt]: 600, [Op.gt]: 60 } }, order: [["publishedAt", "DESC"]], limit : 200 })
+            let _under10min = await Videos.findAndCountAll({ where: { duration: { [Op.lt]: 600, [Op.gt]: 60 } }, order: [["publishedAt", "DESC"]], limit: 200 })
 
 
             let mostLikedVideo = []
