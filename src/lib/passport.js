@@ -17,9 +17,9 @@ let verifyCallback = (accessToken, refreshToken, profile, done) => {
 passport.use(new Strategy(config, verifyCallback))
 
 passport.serializeUser(async (user, done) => {
- let _user = await Users.findOne({ where: { social_id: user.id } })
+ let _user = await Users.findOne({ where: { user_id: user.id } })
  if (_user == null) {
-  await Users.create({ social_id: user.id, name: user.name, email: user.email, profile_pic: user.picture, login_type: "google", created_on: Date.now(), last_login: Date.now() })
+  await Users.create({ user_id: user.id, name: user.name, email: user.email, profile_pic: user.picture, login_type: "google", created_on: Date.now(), last_login: Date.now() })
  } else {
   _user.last_login = Date.now()
   await _user.save()
