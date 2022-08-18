@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize"
 import sequelize from "./sequelize.js"
 
 export const WatchLog = sequelize.define(
- "tbl_watch_log",
+ "tbl_watch_logs",
  {
   id: {
    type: DataTypes.INTEGER,
