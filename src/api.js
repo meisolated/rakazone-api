@@ -17,6 +17,8 @@ import "./lib/passport.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+const HLSfilesDir = "/home/isolated/rakazone/downloads"
+
 let apiVersion = "v1"
 let port = 3001
 
@@ -38,67 +40,68 @@ app.use(middleware)
 // Load Routes
 const directoryPath = path.join(__dirname, "routes")
 const listFolder = (folderPath) =>
- new Promise(async (resolve, reject) => {
-  fs.readdir(folderPath, function (err, files) {
-   if (err) {
-    console.log(err)
-   }
-   files.forEach(async (file) => {
-    if (file.includes(".js")) {
-     let route = `/${apiVersion}/` + `${folderPath}/${file}`.split("routes/")[1]
-     route = route.split(".js")[0]
-     route = route.includes("index") ? route.split("index")[0] : route
-     console.log(`Loading route: ${route}`)
-     await import(`${folderPath}/${file}`).then((fun) => fun.default(app, route))
-    } else {
-     listFolder(`${folderPath}/${file}`)
-    }
-   })
-  })
-  await sleep(5000)
-  resolve()
- })
+    new Promise(async (resolve, reject) => {
+        fs.readdir(folderPath, function (err, files) {
+            if (err) {
+                console.log(err)
+            }
+            files.forEach(async (file) => {
+                if (file.includes(".js")) {
+                    let route = `/${apiVersion}/` + `${folderPath}/${file}`.split("routes/")[1]
+                    route = route.split(".js")[0]
+                    route = route.includes("index") ? route.split("index")[0] : route
+                    console.log(`Loading route: ${route}`)
+                    await import(`${folderPath}/${file}`).then((fun) => fun.default(app, route))
+                } else {
+                    listFolder(`${folderPath}/${file}`)
+                }
+            })
+        })
+        await sleep(5000)
+        resolve()
+    })
 await listFolder(directoryPath)
 
 app.use("/", async (req, res) => {
- res.status(404).json({ status: 404 })
+    res.status(404).json({ status: 404 })
 })
 
 app.use((err, req, res, next) => {
- const statusCode = err.statusCode || 500
- console.error(err.message, err.stack)
- res.status(statusCode).json({ message: err.message })
- return
+    const statusCode = err.statusCode || 500
+    console.error(err.message, err.stack)
+    res.status(statusCode).json({ message: err.message })
+    return
 })
 const server = app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
 
 // HLS
 new hls(server, {
- provider: {
-  exists: (req, cb) => {
-   const ext = req.url.split(".").pop()
-   if (ext !== "m3u8" && ext !== "ts") {
-    return cb(null, true)
-   }
+    provider: {
+        exists: (req, cb) => {
+            const ext = req.url.split(".").pop()
+            if (ext !== "m3u8" && ext !== "ts") {
+                return cb(null, true)
+            }
 
-   fs.access(__dirname + req.url, fs.constants.F_OK, function (err) {
-    if (err) {
-     console.log("File not exist")
-     return cb(null, false)
-    }
-    cb(null, true)
-   })
-  },
-  getManifestStream: (req, cb) => {
-   const stream = fs.createReadStream(__dirname + req.url)
-   cb(null, stream)
-  },
-  getSegmentStream: (req, cb) => {
-   const stream = fs.createReadStream(__dirname + req.url)
-   cb(null, stream)
-  },
- },
+            fs.access(HLSfilesDir + req.url, fs.constants.F_OK, function (err) {
+                if (err) {
+                    console.log("File not exist")
+                    return cb(null, false)
+                }
+                cb(null, true)
+            })
+        },
+        getManifestStream: (req, cb) => {
+            const stream = fs.createReadStream(HLSfilesDir + req.url)
+            cb(null, stream)
+        },
+        getSegmentStream: (req, cb) => {
+            const stream = fs.createReadStream(HLSfilesDir + req.url)
+            cb(null, stream)
+        },
+    },
 })
+
 
 // if (process.env.ENV === "production") {
 //     https

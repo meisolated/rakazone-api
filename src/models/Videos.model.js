@@ -1,5 +1,5 @@
-import sequelize from "./sequelize.js"
 import { DataTypes } from "sequelize"
+import sequelize from "./sequelize.js"
 
 
 export const Videos = sequelize.define("tbl_videos", {
@@ -15,8 +15,10 @@ export const Videos = sequelize.define("tbl_videos", {
     publishedAt: DataTypes.INTEGER,
     duration: DataTypes.INTEGER,
     viewCount: DataTypes.INTEGER,
+    localViews : DataTypes.INTEGER,
     likeCount: DataTypes.INTEGER,
     commentCount: DataTypes.INTEGER,
+    status: DataTypes.BOOLEAN,
 }, {
     timestamps: false,
 })

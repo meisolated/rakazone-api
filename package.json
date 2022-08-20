@@ -1,44 +1,44 @@
 {
- "dependencies": {
-  "cookie-parser": "^1.4.6",
-  "cookie-session": "^2.0.0",
-  "cors": "^2.8.5",
-  "dotenv": "^16.0.1",
-  "express": "^4.17.3",
-  "express-mysql-session": "^2.1.8",
-  "express-rate-limit": "^6.4.0",
-  "express-session": "^1.17.3",
-  "helmet": "^5.0.2",
-  "jsonwebtoken": "^8.5.1",
-  "lodash": "^4.17.21",
-  "moment": "^2.29.1",
-  "morgan": "^1.10.0",
-  "mysql2": "^2.3.3",
-  "node-cache": "^5.1.2",
-  "node-fetch": "^3.2.4",
-  "passport": "^0.5.3",
-  "passport-google-oauth2": "^0.2.0",
-  "sequelize": "^6.19.0",
-  "serve-favicon": "^2.5.0",
-  "unicodechar-string": "^1.0.0",
-  "winston": "^3.7.2"
- },
- "name": "rakazone_backend_api",
- "version": "1.0.0",
- "main": "api.js",
- "type": "module",
- "scripts": {
-  "dev": "nodemon src/api.js",
-  "install:clean": "rm -rf node_modules/ && rm -rf yarn.lock && yarn"
- },
- "keywords": [],
- "author": "",
- "license": "ISC",
- "description": "",
- "devDependencies": {
-  "@types/cookie-parser": "^1.4.2",
-  "@types/express": "^4.17.13",
-  "nodemon": "^2.0.16",
-  "ytdl-core": "^4.11.0"
- }
+    "name": "rakazone_backend_api",
+    "version": "1.0.0",
+    "main": "api.js",
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon src/api.js",
+        "install:clean": "rm -rf node_modules/ && rm -rf yarn.lock && yarn"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "cookie-parser": "^1.4.6",
+        "cookie-session": "^2.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.17.3",
+        "express-mysql-session": "^2.1.8",
+        "express-rate-limit": "^6.4.0",
+        "express-session": "^1.17.3",
+        "helmet": "^5.0.2",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.1",
+        "morgan": "^1.10.0",
+        "mysql2": "^2.3.3",
+        "node-cache": "^5.1.2",
+        "node-fetch": "^3.2.4",
+        "passport": "^0.5.3",
+        "passport-google-oauth2": "^0.2.0",
+        "sequelize": "^6.19.0",
+        "serve-favicon": "^2.5.0",
+        "unicodechar-string": "^1.0.0",
+        "winston": "^3.7.2"
+    },
+    "devDependencies": {
+        "@types/cookie-parser": "^1.4.2",
+        "@types/express": "^4.17.13",
+        "nodemon": "^2.0.16",
+        "ytdl-core": "^4.11.0"
+    }
 }
