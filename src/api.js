@@ -76,6 +76,7 @@ app.use((err, req, res, next) => {
 const server = app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
 
 // HLS
+// use HLS Proxy https://github.com/meisolated/HLS-Proxy
 new hls(server, {
     provider: {
         exists: (req, cb) => {
