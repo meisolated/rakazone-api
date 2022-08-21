@@ -37,6 +37,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
 app.use(middleware)
+
 // Load Routes
 const directoryPath = path.join(__dirname, "routes")
 const listFolder = (folderPath) =>
