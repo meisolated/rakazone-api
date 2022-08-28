@@ -1,7 +1,6 @@
 
 import moment from "moment"
 import LoggerUtil from "../util/logger.js"
-import fetch from "node-fetch"
 
 export const updateORnot = (last_update, next_update) => {
     if (!time) return true
@@ -51,11 +50,3 @@ export function convertToInternationalCurrencySystem(labelValue) {
                 : Math.abs(Number(labelValue))
 
 }
-
-
-export const UrlExists = (url) => new Promise((resolve, reject) => {
-    fetch(url, { method: 'head' })
-        .then(function (status) {
-            resolve(status.ok)
-        })
-}) 

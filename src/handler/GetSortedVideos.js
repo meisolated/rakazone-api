@@ -20,6 +20,7 @@ export const GetSortedVideos = () =>
             _mostRecentVlog,
             _mostRecentIRL,
             _under10min,
+            _localVideos
         } = {}
 
         if (
@@ -38,6 +39,7 @@ export const GetSortedVideos = () =>
             _mostRecentVlog = videos._mostRecentVlog
             _mostRecentIRL = videos._mostRecentIRL
             _under10min = videos._under10min
+            _localVideos = videos._localVideos
 
         } else {
             _mostLikedVideo = await Videos.findAndCountAll({ order: [["likeCount", "DESC"]], limit })
@@ -52,7 +54,7 @@ export const GetSortedVideos = () =>
             _mostRecentVlog = await Videos.findAndCountAll({ where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit })
             _mostRecentIRL = await Videos.findAndCountAll({ where: { type: "irl" }, order: [["publishedAt", "DESC"]], limit })
             _under10min = await Videos.findAndCountAll({ where: { duration: { [Op.lt]: 600, [Op.gt]: 60 } }, order: [["publishedAt", "DESC"]], limit: 200 })
-
+            _localVideos = await Videos.findAndCountAll({ where: { platform: "local" } })
             myCache.set("videos", {
                 _mostLikedVideo,
                 _mostViewedVideo,
@@ -66,6 +68,7 @@ export const GetSortedVideos = () =>
                 _mostRecentVlog,
                 _mostRecentIRL,
                 _under10min,
+                _localVideos
             })
         }
 
@@ -81,6 +84,7 @@ export const GetSortedVideos = () =>
         let mostRecentVlog = []
         let mostRecentIRL = []
         let under10min = []
+        let localVideos = []
 
         _mostLikedVideo.rows.forEach((video) => {
             mostLikedVideo.push(video.dataValues)
@@ -118,17 +122,19 @@ export const GetSortedVideos = () =>
         _under10min.rows.forEach((video) => {
             under10min.push(video.dataValues)
         })
+        _localVideos.rows.forEach((video) => {
+            localVideos.push(video.dataValues)
+        })
 
-        let primaryArray = mostLikedVideo.concat(mostViewedVideo, mostRecentFunny, mostRecentShorts, mostRecentVlog, mostRecentIRL, under10min)
-
+        let primaryArray = mostLikedVideo.concat(mostViewedVideo, mostRecentFunny, mostRecentShorts, mostRecentVlog, mostRecentIRL, under10min, localVideos)
         let featuredPrimary = primaryArray[_.random(0, primaryArray.length - 1)]
         let featuredSecondary = primaryArray[_.random(0, primaryArray.length - 1)]
         let featuredTertiary = primaryArray[_.random(0, primaryArray.length - 1)]
 
         // add six videos to object
-        let One = under10min[_.random(0, under10min.length - 1)]
-        let Two = under10min[_.random(0, under10min.length - 1)]
-        let Three = under10min[_.random(0, under10min.length - 1)]
+        let One = localVideos[_.random(0, localVideos.length - 1)]
+        let Two = localVideos[_.random(0, localVideos.length - 1)]
+        let Three = localVideos[_.random(0, localVideos.length - 1)]
         let Four = mostRecentShorts[0]
         let Five = mostRecentVlog[0]
         let Six = mostRecentIRL[0]
