@@ -1,3 +1,4 @@
+import compression from "compression"
 import cookieParser from "cookie-parser"
 import "dotenv/config"
 import express, { json, urlencoded } from "express"
@@ -10,7 +11,7 @@ import favicon from "serve-favicon"
 import { fileURLToPath } from "url"
 import { sleep } from "./functions/funtions.js"
 import middleware from "./helper/middleware.js"
-import { rateLimiterUsingThirdParty } from "./helper/rateLimiter.js"
+// import { rateLimiterUsingThirdParty } from "./helper/rateLimiter.js"
 import session from "./helper/session.js"
 import hls from "./lib/hls/index.js"
 import "./lib/passport.js"
@@ -21,13 +22,14 @@ const HLSfilesDir = "/home/isolated/rakazone/downloads"
 
 let apiVersion = "v1"
 let port = 3001
-
+// https://expressjs.com/en/advanced/best-practice-performance.html
 const app = express()
 app.use(helmet())
 // app.use(cookieSession({ name: "default", maxAge: 30 * 24 * 60 * 60 * 1000, keys: [process.env.COOKIE_SECRET, process.env.COOKIE_SECRET2], }))
 app.use(session)
 // app.use(rateLimiterUsingThirdParty)
 app.use(passport.initialize())
+app.use(compression())
 app.use(passport.session())
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
 app.use(logger("dev"))

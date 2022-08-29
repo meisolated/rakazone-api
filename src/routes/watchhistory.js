@@ -10,10 +10,12 @@ export default function (app, path) {
         try {
             const video = await Videos.findOne({ where: { videoId } })
             const user = await Users.findOne({ where: { user_id: req.user } })
+            video.localViews = video.localViews + 1
+            video.save()
             if (!video || !user) return formatResponseError(res, { message: "Invalid Request", status: 400 })
             const findHistory = await WatchHistory.findOne({ where: { user_id: user.id, video_id: video.id } })
             if (findHistory) return formatResponseError(res, { message: "You have already watched this video", status: 400 })
-            await WatchHistory.create({ user_id: user.id, video_id: video.id, created_at: Date.now(), modified_at: Date.now() })
+            WatchHistory.create({ user_id: user.id, video_id: video.id, created_at: Date.now(), modified_at: Date.now() })
             return formatResponseSuccess(res, {})
         } catch (err) {
             console.log(err)

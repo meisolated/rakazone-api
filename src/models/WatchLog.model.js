@@ -18,6 +18,7 @@ export const WatchLog = sequelize.define(
         vi: DataTypes.STRING, // video id
         platform: DataTypes.STRING,
         browser: DataTypes.STRING,
+        timestamps: DataTypes.STRING
     },
     {
         timestamps: false,

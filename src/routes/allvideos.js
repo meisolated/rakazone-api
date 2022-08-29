@@ -1,4 +1,4 @@
-import { formatResponseSuccess, formatResponseError } from "../helper/index.js"
+import { formatResponseError, formatResponseSuccess } from "../helper/index.js"
 import { Videos } from "../models/Videos.model.js"
 
 export default function (app, path) {

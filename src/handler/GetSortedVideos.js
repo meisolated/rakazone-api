@@ -42,19 +42,19 @@ export const GetSortedVideos = () =>
             _localVideos = videos._localVideos
 
         } else {
-            _mostLikedVideo = await Videos.findAndCountAll({ order: [["likeCount", "DESC"]], limit })
-            _mostViewedVideo = await Videos.findAndCountAll({ order: [["viewCount", "DESC"]], limit })
-            _mostCommentedVideo = await Videos.findAndCountAll({ order: [["commentCount", "DESC"]], limit })
-            _mostRecentVideo = await Videos.findAndCountAll({ order: [["publishedAt", "DESC"]], limit })
-            _mostRecentLiveStream = await Videos.findAndCountAll({ where: { type: "live_stream" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentSeries = await Videos.findAndCountAll({ where: { type: "series" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentMontage = await Videos.findAndCountAll({ where: { type: "montage" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentFunny = await Videos.findAndCountAll({ where: { type: "funny" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentShorts = await Videos.findAndCountAll({ where: { type: "shorts" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentVlog = await Videos.findAndCountAll({ where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit })
-            _mostRecentIRL = await Videos.findAndCountAll({ where: { type: "irl" }, order: [["publishedAt", "DESC"]], limit })
-            _under10min = await Videos.findAndCountAll({ where: { duration: { [Op.lt]: 600, [Op.gt]: 60 } }, order: [["publishedAt", "DESC"]], limit: 200 })
-            _localVideos = await Videos.findAndCountAll({ where: { platform: "local" } })
+            _mostLikedVideo = await Videos.findAndCountAll({ raw: true, order: [["likeCount", "DESC"]], limit }).then(data => data.rows)
+            _mostViewedVideo = await Videos.findAndCountAll({ raw: true, order: [["viewCount", "DESC"]], limit }).then(data => data.rows)
+            _mostCommentedVideo = await Videos.findAndCountAll({ raw: true, order: [["commentCount", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentVideo = await Videos.findAndCountAll({ raw: true, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentLiveStream = await Videos.findAndCountAll({ raw: true, where: { type: "live_stream" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentSeries = await Videos.findAndCountAll({ raw: true, where: { type: "series" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentMontage = await Videos.findAndCountAll({ raw: true, where: { type: "montage" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentFunny = await Videos.findAndCountAll({ raw: true, where: { type: "funny" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentShorts = await Videos.findAndCountAll({ raw: true, where: { type: "shorts" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentVlog = await Videos.findAndCountAll({ raw: true, where: { type: "vlog" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _mostRecentIRL = await Videos.findAndCountAll({ raw: true, where: { type: "irl" }, order: [["publishedAt", "DESC"]], limit }).then(data => data.rows)
+            _under10min = await Videos.findAndCountAll({ raw: true, where: { duration: { [Op.lt]: 600, [Op.gt]: 60 } }, order: [["publishedAt", "DESC"]], limit: 200 }).then(data => data.rows)
+            _localVideos = await Videos.findAndCountAll({ raw: true, where: { platform: "local" } }).then(data => data.rows)
             myCache.set("videos", {
                 _mostLikedVideo,
                 _mostViewedVideo,
@@ -72,72 +72,19 @@ export const GetSortedVideos = () =>
             })
         }
 
-        let mostLikedVideo = []
-        let mostViewedVideo = []
-        let mostCommentedVideo = []
-        let mostRecentVideo = []
-        let mostRecentLiveStream = []
-        let mostRecentSeries = []
-        let mostRecentMontage = []
-        let mostRecentFunny = []
-        let mostRecentShorts = []
-        let mostRecentVlog = []
-        let mostRecentIRL = []
-        let under10min = []
-        let localVideos = []
 
-        _mostLikedVideo.rows.forEach((video) => {
-            mostLikedVideo.push(video.dataValues)
-        })
-        _mostViewedVideo.rows.forEach((video) => {
-            mostViewedVideo.push(video.dataValues)
-        })
-        _mostCommentedVideo.rows.forEach((video) => {
-            mostCommentedVideo.push(video.dataValues)
-        })
-        _mostRecentVideo.rows.forEach((video) => {
-            mostRecentVideo.push(video.dataValues)
-        })
-        _mostRecentLiveStream.rows.forEach((video) => {
-            mostRecentLiveStream.push(video.dataValues)
-        })
-        _mostRecentSeries.rows.forEach((video) => {
-            mostRecentSeries.push(video.dataValues)
-        })
-        _mostRecentMontage.rows.forEach((video) => {
-            mostRecentMontage.push(video.dataValues)
-        })
-        _mostRecentFunny.rows.forEach((video) => {
-            mostRecentFunny.push(video.dataValues)
-        })
-        _mostRecentShorts.rows.forEach((video) => {
-            mostRecentShorts.push(video.dataValues)
-        })
-        _mostRecentVlog.rows.forEach((video) => {
-            mostRecentVlog.push(video.dataValues)
-        })
-        _mostRecentIRL.rows.forEach((video) => {
-            mostRecentIRL.push(video.dataValues)
-        })
-        _under10min.rows.forEach((video) => {
-            under10min.push(video.dataValues)
-        })
-        _localVideos.rows.forEach((video) => {
-            localVideos.push(video.dataValues)
-        })
-
-        let primaryArray = mostLikedVideo.concat(mostViewedVideo, mostRecentFunny, mostRecentShorts, mostRecentVlog, mostRecentIRL, under10min, localVideos)
+        let primaryArray = _mostLikedVideo.concat(_mostViewedVideo, _mostRecentFunny, _mostRecentShorts, _mostRecentVlog, _mostRecentIRL, _under10min, _localVideos)
         let featuredPrimary = primaryArray[_.random(0, primaryArray.length - 1)]
         let featuredSecondary = primaryArray[_.random(0, primaryArray.length - 1)]
         let featuredTertiary = primaryArray[_.random(0, primaryArray.length - 1)]
 
         // add six videos to object
-        let One = localVideos[_.random(0, localVideos.length - 1)]
-        let Two = localVideos[_.random(0, localVideos.length - 1)]
-        let Three = localVideos[_.random(0, localVideos.length - 1)]
-        let Four = mostRecentShorts[0]
-        let Five = mostRecentVlog[0]
-        let Six = mostRecentIRL[0]
+        let One = _localVideos[_.random(0, _localVideos.length - 1)]
+        let Two = _localVideos[_.random(0, _localVideos.length - 1)]
+        let Three = _localVideos[_.random(0, _localVideos.length - 1)]
+        let Four = _mostRecentShorts[0]
+        let Five = _mostRecentVlog[0]
+        let Six = _mostRecentIRL[0]
         let latest = { One, Two, Three, Four, Five, Six }
 
         let data = { featuredPrimary, featuredSecondary, featuredTertiary, latest }
