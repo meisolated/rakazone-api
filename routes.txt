@@ -1,0 +1,45 @@
+[
+    /getRelevantPosts GET  {}
+    /getPostComments?post_id GET {}
+    /createPost POST
+    /vote POST  {user_id, post_id, vote_type}
+    /editPost 
+]
+
+
+
+Posts{
+user_id  (number)
+post_title (string)
+post_text (string)
+[post_image (array)
+OR
+post_video (array)]
+post_tags
+post_up_votes
+post_down_votes
+Spoiler [bool]
+nudity_check []
+Approved [boolean]
+}
+
+
+tags {
+    name
+    color 
+}
+
+
+
+post_votes{
+user_id [number]
+post_id [number]
+vote_status [0 = down, 1 = up ]
+}
+
+post_comments {
+user_id
+post_id 
+comment_id (if null, primary comment)
+comment_text 
+}

@@ -1,0 +1,3 @@
+NODE_ENV=dev
+MONGO_DEV_URI=mongodb://10.69.69.201:27017/rakazone
+MONGO_PRO_URI=mongodb://10.69.69.201:27017/rakazone
