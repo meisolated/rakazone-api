@@ -1,8 +1,8 @@
-import session from "express-session"
-import MySQLStore from "express-mysql-session"
 import "dotenv/config"
+import MySQLStore from "express-mysql-session"
+import session from "express-session"
 
-let DATABASE = process.env.ENV === "production" ? process.env.DATABASE : process.env.DEVDATABASE
+let DATABASE = process.env.NODE_ENV === "production" ? process.env.DATABASE : process.env.DEVDATABASE
 const db_config = {
     host: process.env.HOST,
     port: process.env.PORT,

@@ -32,7 +32,7 @@ app.use(passport.initialize())
 app.use(compression())
 app.use(passport.session())
 app.use(favicon(path.join(__dirname, "assets", "logo.ico")))
-app.use(logger("dev"))
+if (process.env.NODE_ENV == "dev") app.use(logger("dev"))
 app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -77,7 +77,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json({ message: err.message })
     return
 })
-const server = app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))
+const server = app.listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.NODE_ENV} environment`))
 
 // HLS
 // use HLS Proxy https://github.com/meisolated/HLS-Proxy
@@ -109,7 +109,7 @@ new hls(server, {
 })
 
 
-// if (process.env.ENV === "production") {
+// if (process.env.NODE_ENV=== "production") {
 //     https
 //         .createServer({ cert: fs.readFileSync("cert/cert.pem"), key: fs.readFileSync("cert/key.pem") }, app)
 //         .listen(port, () => console.log(`Example app listening on port ${port} in ${process.env.ENV} environment`))

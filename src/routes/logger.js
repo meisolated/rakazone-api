@@ -16,8 +16,11 @@ export default function (app, path) {
                     // return formatResponseError(res, { message: "Something went wrong", status: "200" })
                 })
                 .then(async ({ data }) => {
+                    console.log(data)
                     const timestamp = Date.now()
-                    Logger.create({ ip, city: data.city, region: data.region, country: data.country, postal: data.postal, timezone: data.timezone, isp_address: data.org, req_type, timestamp })
+                    Logger.create({ ip, city: data.city, region: data.region, country: data.country, postal: data.postal, timezone: data.timezone, isp_address: data.org, req_type, timestamp }).catch(e => {
+                        console.log(e)
+                    })
                 })
         } catch (err) {
             // formatResponseError(res, err)
