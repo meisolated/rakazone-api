@@ -1,8 +1,6 @@
-import { Request, Response, Router } from "express"
-const router = Router()
-
-router.get("/hello", (req: Request, res: Response) => {
-    return res.json({ error: 404 })
-})
-
-export default router
+export default function (app: any, path: any) {
+    console.log(`Loaded route: ${path}`)
+    app.get(path, async (req: any, res: any) => {
+        return res.json({ test: "test1" })
+    })
+}
