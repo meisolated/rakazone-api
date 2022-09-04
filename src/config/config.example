@@ -1,0 +1,19 @@
+import "dotenv/config"
+
+interface conf {
+    mongoUri: string,
+    googleAuthClientID: string,
+    googleAuthClientSecret: string,
+    googleAuthCallbackURL: string,
+}
+
+const config: conf = {
+    mongoUri:
+        process.env.NODE_ENV == "production"
+            ? ""
+            : "",
+    googleAuthClientID:"",
+    googleAuthClientSecret: "",
+    googleAuthCallbackURL: "",
+}
+export default config
