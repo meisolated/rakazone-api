@@ -1,0 +1,12 @@
+{
+    "apps": [
+        {
+            "name": "RAKAZONE_API_PRODUCTION",
+            "script": "./src/api.js",
+            "args": "start",
+            "cwd": "./",
+            "instances": "10",
+            "exec_mode": "cluster"
+        }
+    ]
+}
