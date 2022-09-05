@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "main": "api.js",
     "type": "module",
+    "repository": {
+        "url": "https://github.com/meisolated/express_dynamic_routes.git"
+    },
     "scripts": {
         "dev": "nodemon src/api.js",
         "start": "node src/api.js",
