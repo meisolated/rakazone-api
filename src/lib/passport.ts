@@ -1,6 +1,7 @@
-import config from "config"
 import passport from "passport"
 import { Strategy } from "passport-google-oauth2"
+import config from "../config"
+
 
 const _config = {
     clientID: config.googleAuthClientID,
@@ -24,7 +25,8 @@ passport.serializeUser(async (user, done) => {
     // _user.last_login = Date.now()
     // await _user.save()
     // }
-    // done(null, user.id)
+    // @ts-ignore
+    done(null, user.id)
 })
 passport.deserializeUser(async (id: number, done) => {
     done(null, id)

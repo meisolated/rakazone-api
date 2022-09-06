@@ -1,21 +1,19 @@
+import MongoStore from "connect-mongo"
 import session from "express-session"
 import config from "../config"
-
-const testSoreFunction = (data: any) => {
-    console.log(data)
-}
-
 interface sessionOps {
     key: string,
     secret: string,
-    store: undefined,
+    store: session.Store,
     resave: boolean,
     saveUninitialized: boolean
 }
 const sessionOptions: sessionOps = {
     key: config.cookieKey,
     secret: config.cookieSecret,
-    store: undefined,
+    store: MongoStore.create({
+        mongoUrl: config.mongoUri
+    }),
     resave: false,
     saveUninitialized: false
 }

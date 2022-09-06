@@ -1,12 +1,12 @@
 import { Schema } from 'mongoose'
 interface session {
-    sessionId: string,
-    expires: number,
+    _id: string,
+    expires: any,
     data: object
 }
 
 export default new Schema<session>({
-    sessionId: { type: String, required: true },
-    expires: { type: Number, required: true },
+    _id: { type: String, required: true },
+    expires: { type: String, required: true },
     data: { type: Object, required: true }
 })

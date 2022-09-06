@@ -5,13 +5,15 @@ const loadFolderRoutes = (app: any, routesDir: string, mainRoute: string, disabl
         if (err) return err
         files.forEach(async (file: any) => {
             if (file.includes(".js")) {
-                let route = `/${mainRoute}/${file}`
+                let route = `/${file}`
+                route = routesDir.split("routes")[1] + route
                 route = route.split(".js")[0]
                 route = route.includes("index") ? route.split("index")[0] : route
+                route = "/" + mainRoute + route
                 if (!disableLogging) console.log(`Loading route: ${route}`)
                 await import(`${routesDir}/${file}`).then((fun) => fun.default(app, route))
             } else {
-                const nextFolderPath = `${mainRoute}/${file}`
+                const nextFolderPath = `${routesDir}/${file}`
                 loadFolderRoutes(app, nextFolderPath, mainRoute, disableLogging)
             }
         })
