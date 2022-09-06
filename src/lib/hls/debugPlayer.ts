@@ -1,3 +1,4 @@
+// @ts-nocheck
 export default `
 <html>
 <head><title>Debug Player</title></head>

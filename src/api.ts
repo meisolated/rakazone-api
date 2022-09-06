@@ -40,31 +40,8 @@ const server = app.listen(port, () => {
 })
 
 
-// FIXME: Find some way to replace provider or merge it with HLSServer
 new HLSServer(server, {
-    provider: {
-        exists: (req: any, cb: any) => {
-            const ext = req.url.split(".").pop()
-            if (ext !== "m3u8" && ext !== "ts") {
-                return cb(null, true)
-            }
-
-            fs.access(config.assetsDir + req.url, fs.constants.F_OK, function (err) {
-                if (err) {
-                    console.log("File not exist")
-                    return cb(null, false)
-                }
-                cb(null, true)
-            })
-        },
-        getManifestStream: (req: any, cb: any) => {
-            const stream = fs.createReadStream(config.assetsDir + req.url)
-            cb(null, stream)
-        },
-        getSegmentStream: (req: any, cb: any) => {
-            const stream = fs.createReadStream(config.assetsDir + req.url)
-            cb(null, stream)
-        },
-    },
+    path: "/",
+    dir: config.assetsDir,
 })
 

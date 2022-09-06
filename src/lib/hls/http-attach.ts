@@ -1,5 +1,4 @@
 function httpAttach(httpServer: any, handler: any) {
-
     function attached(req: any, res: any) {
         var next = originalHandler ? function next() {
             originalHandler(req, res)
@@ -7,14 +6,11 @@ function httpAttach(httpServer: any, handler: any) {
             res.statusCode = 404
             res.end()
         }
-
         handler(req, res, next)
     }
-
     Object.defineProperty(attached, 'name', {
         value: (handler.name && handler.name + '_' || '') + 'attached'
     })
-
     var originalHandler = replaceListener(httpServer, 'request', attached)
 }
 

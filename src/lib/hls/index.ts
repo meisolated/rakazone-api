@@ -12,9 +12,6 @@ var CONTENT_TYPE = {
   HTML: 'text/html'
 }
 
-
-
-
 class HLSServer {
   path: string = ""
   dir: string = ""
@@ -22,7 +19,7 @@ class HLSServer {
   constructor(server: any, opts: any) {
     this.path = opts.path || "/"
     this.dir = opts.dir || ""
-    this.provider = opts.provider || fsProvider
+    this.provider = opts.provider || new fsProvider()
     // this.provider = fsProvider //||opts.provider 
     if (isNaN(server)) {
       httpAttach(server, this._middleware.bind(this))
@@ -41,7 +38,7 @@ class HLSServer {
     let extension = path.extname(filePath)
 
     // @ts-ignore
-    res.filePath = filePath
+    req.filePath = filePath
 
     let ae = req.headers["accept-encoding"] || ""
     //@ts-ignore
@@ -65,8 +62,6 @@ class HLSServer {
           default:
             next()
             break
-
-
         }
       }
     })
