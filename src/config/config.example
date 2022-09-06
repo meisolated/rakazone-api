@@ -5,6 +5,10 @@ interface conf {
     googleAuthClientID: string,
     googleAuthClientSecret: string,
     googleAuthCallbackURL: string,
+    cookieSecret: string,
+    cookieKey: string,
+    sessionExpire: number,
+    assetsDir: string
 }
 
 const config: conf = {
@@ -12,8 +16,12 @@ const config: conf = {
         process.env.NODE_ENV == "production"
             ? ""
             : "",
-    googleAuthClientID:"",
-    googleAuthClientSecret: "",
-    googleAuthCallbackURL: "",
+    googleAuthClientID: false ? "" : "",
+    googleAuthClientSecret: false ? "" : "",
+    googleAuthCallbackURL: false ? "" : "",
+    cookieSecret: "",
+    cookieKey: "",
+    sessionExpire: 1000 * 60 * 60 * 24 * 30, // 1 Month
+    assetsDir: ""
 }
 export default config
