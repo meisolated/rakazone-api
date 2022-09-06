@@ -7,7 +7,8 @@ interface conf {
     googleAuthCallbackURL: string,
     cookieSecret: string,
     cookieKey: string,
-    sessionExpire: number
+    sessionExpire: number,
+    assetsDir: string
 }
 
 const config: conf = {
@@ -20,6 +21,7 @@ const config: conf = {
     googleAuthCallbackURL: false ? "https://raka.zone/internal_api/v1/auth/google/callback" : "http://localhost:5001/api/auth/google/callback",
     cookieSecret: "BuTCpZx6ndDUmfa9d4SRVHzQCqPvsMpR",
     cookieKey: "Z2DxkAzWtF9dpSwSz97aR3LpdQcbaVtS",
-    sessionExpire: 1000 * 60 * 60 * 24 * 30 // 1 Month
+    sessionExpire: 1000 * 60 * 60 * 24 * 30, // 1 Month
+    assetsDir: "/home/isolated/rakazone/downloads"
 }
 export default config

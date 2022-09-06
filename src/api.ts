@@ -17,7 +17,6 @@ const port = process.env.NODE_ENV == "dev" ? 5001 : 3001
 
 
 app.use(helmet())
-//TODO: https://github.com/mongodb-js/connect-mongodb-session/blob/master/index.js
 app.use(session)
 app.use(passport.initialize())
 app.use(passport.session())
@@ -30,8 +29,8 @@ app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
 
 
-app.get("/", (req: Request, res: Response) => {
-    res.send({ nothing: "nothing" })
+app.get("/", (_req: Request, res: Response) => {
+    res.send({})
 })
 
 LoadRoutes(app, directoryPath, "api", false)
@@ -40,7 +39,8 @@ const server = app.listen(port, () => {
     console.log(`Server running on port http://localhost:` + port)
 })
 
-const HLSfilesDir = "/home/isolated/rakazone/downloads"
+
+// FIXME: Find some way to replace provider or merge it with HLSServer
 new HLSServer(server, {
     provider: {
         exists: (req: any, cb: any) => {
@@ -49,7 +49,7 @@ new HLSServer(server, {
                 return cb(null, true)
             }
 
-            fs.access(HLSfilesDir + req.url, fs.constants.F_OK, function (err) {
+            fs.access(config.assetsDir + req.url, fs.constants.F_OK, function (err) {
                 if (err) {
                     console.log("File not exist")
                     return cb(null, false)
@@ -58,11 +58,11 @@ new HLSServer(server, {
             })
         },
         getManifestStream: (req: any, cb: any) => {
-            const stream = fs.createReadStream(HLSfilesDir + req.url)
+            const stream = fs.createReadStream(config.assetsDir + req.url)
             cb(null, stream)
         },
         getSegmentStream: (req: any, cb: any) => {
-            const stream = fs.createReadStream(HLSfilesDir + req.url)
+            const stream = fs.createReadStream(config.assetsDir + req.url)
             cb(null, stream)
         },
     },
