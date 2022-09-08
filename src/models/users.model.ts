@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-export interface user {
+interface user {
     userId: string,
     loginType: string,
     name: string,
@@ -12,10 +12,10 @@ export interface user {
 }
 
 export default new Schema<user>({
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, unique: true },
     loginType: { type: String, required: true },
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     profilePic: { type: String, required: true },
     createdOn: { type: Number, required: true },
     lastLogin: { type: Number, required: true },
