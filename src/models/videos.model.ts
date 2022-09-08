@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-interface video {
+interface videos {
     videoId: string,
     platform: string,
     // thumbnail: string, //?REDACTED
@@ -14,7 +14,7 @@ interface video {
     status: boolean
 }
 
-export default new Schema<video>({
+export default new Schema<videos>({
     videoId: { type: String, required: true },
     platform: { type: String, required: true },
     title: { type: String, required: true },

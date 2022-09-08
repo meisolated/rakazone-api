@@ -1,20 +1,3 @@
-// +-----------+--------------+------+-----+---------+----------------+
-// | Field     | Type         | Null | Key | Default | Extra          |
-// +-----------+--------------+------+-----+---------+----------------+
-// | id        | int          | NO   | PRI | NULL    | auto_increment |
-// | user_id   | varchar(100) | NO   |     | NULL    |                |
-// | playing   | tinyint(1)   | NO   |     | NULL    |                |
-// | muted     | tinyint(1)   | NO   |     | NULL    |                |
-// | volume    | int          | NO   |     | NULL    |                |
-// | ts        | varchar(20)  | NO   |     | NULL    |                |
-// | ct        | varchar(20)  | NO   |     | NULL    |                |
-// | vl        | varchar(20)  | NO   |     | NULL    |                |
-// | vi        | varchar(200) | NO   |     | NULL    |                |
-// | platform  | varchar(20)  | NO   |     | NULL    |                |
-// | browser   | varchar(400) | NO   |     | NULL    |                |
-// | timestamp | varchar(50)  | YES  |     | NULL    |                |
-// +-----------+--------------+------+-----+---------+----------------+
-
 import { Schema } from "mongoose"
 
 interface watchLog {

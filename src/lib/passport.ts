@@ -1,7 +1,7 @@
 import passport from "passport"
 import { Strategy } from "passport-google-oauth2"
 import config from "../config"
-import { User } from "../models"
+import { Users } from "../models"
 
 const _config = {
     clientID: config.googleAuthClientID,
@@ -18,9 +18,9 @@ passport.use(new Strategy(_config, verifyCallback))
 
 passport.serializeUser(async (user: any, done) => {
     const now = Date.now()
-    const findUser = await User.findOne({ userId: user.id })
+    const findUser = await Users.findOne({ userId: user.id })
     if (!findUser) {
-        const newUser = new User()
+        const newUser = new Users()
         newUser.userId = user.id
         newUser.loginType = "google"
         newUser.name = user.name
