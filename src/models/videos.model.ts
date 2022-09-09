@@ -1,16 +1,16 @@
-import { Schema } from 'mongoose'
+import { Schema } from "mongoose"
 interface videos {
-    videoId: string,
-    platform: string,
+    videoId: string
+    platform: string
     // thumbnail: string, //?REDACTED
-    title: string,
-    type: string,
-    publishedAt: number,
-    duration: number,
-    viewCount: number,
-    localViews: number,
-    likeCount: number,
-    commentCount: number,
+    title: string
+    type: string
+    publishedAt: number
+    duration: number
+    viewCount: number
+    localViews: number
+    likeCount: number
+    commentCount: number
     status: boolean
 }
 
@@ -26,5 +26,4 @@ export default new Schema<videos>({
     likeCount: { type: Number, required: true },
     commentCount: { type: Number, required: true },
     status: { type: Boolean, required: true },
-
 })

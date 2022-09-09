@@ -6,6 +6,7 @@
   "module": "module",
   "scripts": {
     "dev": "tsc && NODE_ENV=dev node dist/api.js",
+    "build": "tsc",
     "start": "tsc && NODE_ENV=production node dist/api.js",
     "pm2": "pm2",
     "format": "prettier --write \"{src,test}/**/*.{js,ts}\"",

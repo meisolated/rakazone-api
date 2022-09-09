@@ -1,17 +1,13 @@
-/**
- * platform, videoId, title, viewersCount,  publishedAt, status, lastUpdate
- */
 import { Schema } from "mongoose"
 
-
 interface live {
-    platform: string,
-    videoId: string,
-    title: string,
-    viewersCount: number,
-    publishedAt: number,
-    status: boolean,
-    lastUpdate: number,
+    platform: string
+    videoId: string
+    title: string
+    viewersCount: number
+    publishedAt: number
+    status: boolean
+    lastUpdate: number
 }
 
 export default new Schema<live>({

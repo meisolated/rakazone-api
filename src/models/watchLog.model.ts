@@ -1,16 +1,16 @@
 import { Schema } from "mongoose"
 
 interface watchLog {
-    userId: string,
-    playing: boolean,
-    muted: boolean,
-    volume: number,
-    ts: number,
-    ct: number,
-    vl: number,
-    vi: string,
-    platform: string,
-    browser: string,
+    userId: string
+    playing: boolean
+    muted: boolean
+    volume: number
+    ts: number
+    ct: number
+    vl: number
+    vi: string
+    platform: string
+    browser: string
     timestamp: number
 }
 

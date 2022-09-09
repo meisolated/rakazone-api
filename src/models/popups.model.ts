@@ -1,12 +1,12 @@
 import { Schema } from "mongoose"
 
 interface popups {
-    title: string,
-    message: string,
-    closeBtnText: string,
-    closeBtnRedirect: string,
-    once: boolean,
-    expire: number,
+    title: string
+    message: string
+    closeBtnText: string
+    closeBtnRedirect: string
+    once: boolean
+    expire: number
     status: boolean
 }
 

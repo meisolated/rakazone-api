@@ -1,9 +1,9 @@
 import { Schema } from "mongoose"
 
 interface watchHistory {
-    userId: string,
-    videoId: string,
-    createdAt: number,
+    userId: string
+    videoId: string
+    createdAt: number
     modifiedAt: number
 }
 

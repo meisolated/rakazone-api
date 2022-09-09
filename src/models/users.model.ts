@@ -1,13 +1,13 @@
-import { Schema } from 'mongoose'
+import { Schema } from "mongoose"
 
 interface user {
-    userId: string,
-    loginType: string,
-    name: string,
-    email: string,
-    profilePic: string,
-    createdOn: number,
-    lastLogin: number,
+    userId: string
+    loginType: string
+    name: string
+    email: string
+    profilePic: string
+    createdOn: number
+    lastLogin: number
     status: boolean
 }
 
@@ -20,5 +20,4 @@ export default new Schema<user>({
     createdOn: { type: Number, required: true },
     lastLogin: { type: Number, required: true },
     status: { type: Boolean, required: true },
-
 })

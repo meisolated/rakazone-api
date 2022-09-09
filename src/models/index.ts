@@ -1,3 +1,4 @@
+import analyticsModel from "./analytics.model"
 import liveModel from "./live.model"
 import Mongoose from "./mongoose"
 import popupModel from "./popups.model"
@@ -7,7 +8,6 @@ import sessionModel from "./sessions.model"
 import streamerDataModel from "./streamerData.model"
 import usersModel from "./users.model"
 import videosModel from "./videos.model"
-import visitorLogModel from "./visitorLog.model"
 import watchHistoryModel from "./watchHistory.model"
 import watchLogModel from "./watchLog.model"
 
@@ -19,8 +19,11 @@ export const Sessions = connection.model("Sessions", sessionModel)
 export const Live = connection.model("Live", liveModel)
 export const Popups = connection.model("Popups", popupModel)
 export const Redirects = connection.model("Redirects", redirectsModel)
-export const ServerSettings = connection.model("ServerSettings", serverSettingsModel)
+export const ServerSettings = connection.model(
+    "ServerSettings",
+    serverSettingsModel
+)
 export const StreamerData = connection.model("StreamerData", streamerDataModel)
-export const VisitorLog = connection.model("VisitorLog", visitorLogModel)
+export const VisitorLog = connection.model("VisitorLog", analyticsModel)
 export const WatchHistory = connection.model("WatchHistory", watchHistoryModel)
 export const WatchLog = connection.model("WatchLog", watchLogModel)

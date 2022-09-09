@@ -9,8 +9,18 @@ const _config = {
     callbackURL: config.googleAuthCallbackURL,
 }
 
-function verifyCallback(accessToken: any, refreshToken: any, profile: any, done: any) {
-    const user = { email: profile.email, name: profile.displayName, picture: profile.photos[0].value, id: profile.id }
+function verifyCallback(
+    accessToken: any,
+    refreshToken: any,
+    profile: any,
+    done: any
+) {
+    const user = {
+        email: profile.email,
+        name: profile.displayName,
+        picture: profile.photos[0].value,
+        id: profile.id,
+    }
     done(null, user)
 }
 
@@ -31,14 +41,11 @@ passport.serializeUser(async (user: any, done) => {
         newUser.status = true
         await newUser.save()
         done(null, user.id)
-    }
-    else {
+    } else {
         findUser.lastLogin = now
         findUser.save()
         done(null, user.id)
     }
-
-
 })
 passport.deserializeUser(async (id: number, done) => {
     done(null, id)
