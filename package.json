@@ -5,7 +5,7 @@
   "main": "index.js",
   "module": "module",
   "scripts": {
-    "dev": "tsc && NODE_ENV=dev node dist/api.js",
+    "dev": "tsc && BUILD_TYPE=dev node dist/api.js",
     "build": "tsc",
     "start": "tsc && NODE_ENV=production node dist/api.js",
     "pm2": "pm2",
@@ -28,6 +28,7 @@
     "@types/passport": "^1.0.10",
     "@types/passport-google-oauth2": "^0.1.5",
     "@types/passport-oauth2": "^1.4.11",
+    "@types/response-time": "^2.3.5",
     "compression": "^1.7.4",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",

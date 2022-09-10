@@ -13,34 +13,34 @@ import session from "./lib/session"
 
 const routesDirPath = path.join(__dirname, "/routes")
 const app: Express = express()
-const port = process.env.NODE_ENV == "dev" ? 5001 : 3001
+const port = process.env.BUILD_TYPE == "dev" ? 5001 : 3001
 
 app.use(helmet())
 app.use(session)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(compression({ level: 9 }))
-if (process.env.NODE_ENV == "dev") app.use(logger("dev"))
+if (process.env.BUILD_TYPE == "dev") app.use(logger("dev"))
 app.use(json())
 app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
-
+app.use("/assets", express.static(path.join(__dirname, "assets"), { maxAge: 60 * 60 * 24 * 30 }))
+app.use("/thumbnails", express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 24 * 30 }))
 app.get("/", (_req: Request, res: Response) => {
-    res.send({ message: "Something is missing over here", code: 404 })
+    res.send({ message: "Something is missing over here", code: 200 })
 })
 
-LoadRoutes(app, routesDirPath, "api", true)
+LoadRoutes(app, routesDirPath, "api", false)
 
-const server = app.listen(port, () => {
-    console.log(`Server running on port http://localhost:` + port)
-})
+setTimeout(() => {
+    app.use("/watch", (req, res, next) => HLSServer(req, res, next, { hlsDir: config.videosDir }))
+    app.listen(port, () => {
+        console.log(`Server running on port http://localhost:` + port)
+    })
+}, 5000)
 
-new HLSServer(server, {
-    path: "/",
-    dir: config.assetsDir,
-})
 
 /**
  * @videos these videos are gonna be based on user or session history.

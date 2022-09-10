@@ -2,7 +2,12 @@ import fs from "fs"
 
 class fsProvider {
     exists(req: any, cb: any) {
-        fs.access(req.filePath, (exists) => cb(null, exists))
+        fs.access(req.filePath, (err) => {
+            if (err) {
+                return cb(err, null)
+            }
+            return cb(null, true)
+        })
     }
     getSegmentStream(req: any, cb: any) {
         cb(null, fs.createReadStream(req.filePath))

@@ -1,74 +1,58 @@
-import { Request, Response } from "express"
-import http from "http"
+import { NextFunction, Request, Response } from "express"
 import path from "path"
 import url from "url"
 import zlib from "zlib"
 import fsProvider from "./fsProvider"
-import httpAttach from "./http-attach"
 
-var CONTENT_TYPE = {
-    MANIFEST: "application/vnd.apple.mpegurl",
-    SEGMENT: "video/MP2T",
-    HTML: "text/html",
+
+interface options {
+    hlsDir: string
 }
+function HLSServer(req: Request, res: Response, next: NextFunction, options: options) {
+    const CONTENT_TYPE = {
+        MANIFEST: "application/vnd.apple.mpegurl",
+        SEGMENT: "video/MP2T",
+        HTML: "text/html",
+    }
+    let uri = url.parse(req.url).pathname || ""
+    let relativePath = path.relative("/", uri)
+    let filePath = path.join(options.hlsDir, relativePath)
+    let extension = path.extname(filePath)
+    const provider = new fsProvider()
+    // @ts-ignore
+    req.filePath = filePath
 
-class HLSServer {
-    path: string = ""
-    dir: string = ""
-    provider: any = null
-    constructor(server: any, opts: any) {
-        this.path = opts.path || "/"
-        this.dir = opts.dir || ""
-        this.provider = opts.provider || new fsProvider()
-        // this.provider = fsProvider //||opts.provider
-        if (isNaN(server)) {
-            httpAttach(server, this._middleware.bind(this))
+    let ae = req.headers["accept-encoding"] || ""
+    //@ts-ignore
+    req.acceptsCompression = ae.match(/\bgzip\b/)
+
+    provider.exists(req, (err: any, exists: any) => {
+
+        if (err) {
+            res.statusCode = 500
+            res.end()
+        } else if (!exists) {
+            res.statusCode = 404
+            res.end()
         } else {
-            let port = server
-            server = http.createServer()
-            httpAttach(server, this._middleware.bind(this))
-            server.listen(port)
-        }
-    }
-
-    _middleware(req: Request, res: Response, next: any) {
-        let uri = url.parse(req.url).pathname || ""
-        let relativePath = path.relative(this.path, uri)
-        let filePath = path.join(this.dir, relativePath)
-        let extension = path.extname(filePath)
-
-        // @ts-ignore
-        req.filePath = filePath
-
-        let ae = req.headers["accept-encoding"] || ""
-        //@ts-ignore
-        req.acceptsCompression = ae.match(/\bgzip\b/)
-
-        this.provider.exists(req, (err: any, exists: any) => {
-            if (err) {
-                res.statusCode = 500
-                res.end()
-            } else if (!exists) {
-                res.statusCode = 404
-                res.end()
-            } else {
-                switch (extension) {
-                    case ".m3u8":
-                        this._writeManifest(req, res, next)
-                        break
-                    case ".ts":
-                        this._writeSegment(req, res, next)
-                        break
-                    default:
-                        next()
-                        break
-                }
+            switch (extension) {
+                case ".m3u8":
+                    _writeManifest(req, res, next)
+                    break
+                case ".ts":
+                    _writeSegment(req, res, next)
+                    break
+                default:
+                    next()
+                    break
             }
-        })
-    }
+        }
+    })
 
-    _writeManifest(req: Request, res: Response, next: any) {
-        this.provider.getManifestStream(req, (err: any, stream: any) => {
+    function _writeManifest(req: Request, res: Response, next: NextFunction) {
+
+
+        provider.getManifestStream(req, (err: any, stream: any) => {
             if (err) {
                 res.statusCode = 500
                 res.end()
@@ -87,9 +71,8 @@ class HLSServer {
             }
         })
     }
-
-    _writeSegment(req: any, res: any, next: any) {
-        this.provider.getSegmentStream(req, function (err: any, stream: any) {
+    function _writeSegment(req: Request, res: Response, _next: NextFunction) {
+        provider.getSegmentStream(req, function (err: any, stream: any) {
             if (err) {
                 res.statusCode = 500
                 res.end()
@@ -101,4 +84,5 @@ class HLSServer {
         })
     }
 }
+
 export default HLSServer
