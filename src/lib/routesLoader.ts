@@ -17,9 +17,7 @@ const findAllRoutes = (routesDir: string, routePrefix: string) =>
                     let route = `/${file}`
                     route = dir.split("routes")[1] + route
                     route = route.split(".js")[0]
-                    route = route.includes("index")
-                        ? route.split("index")[0]
-                        : route
+                    route = route.includes("index") ? route.split("index")[0] : route
                     pushInRoutes(dir, file, route)
                 } else {
                     if (fs.lstatSync(dir + "/" + file).isDirectory()) {
@@ -35,22 +33,20 @@ const findAllRoutes = (routesDir: string, routePrefix: string) =>
         resolve(routes)
     })
 
-const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) => new Promise(async (resolve, reject) => {
-    routesList.forEach(async (route: any) => {
-        try {
-            if (logging) console.log(`Loading ${route.route} route.`)
-            await import(route.path).then((fun) =>
-                fun.default(app, route.route)
-            )
-        } catch (error: any) {
-            reject()
-            throw new Error(error)
-        }
+const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) =>
+    new Promise(async (resolve, reject) => {
+        routesList.forEach(async (route: any) => {
+            try {
+                if (logging) console.log(`Loading ${route.route} route.`)
+                await import(route.path).then((fun) => fun.default(app, route.route))
+            } catch (error: any) {
+                reject()
+                throw new Error(error)
+            }
+        })
+        await timeout(2000)
+        resolve(true)
     })
-    await timeout(2000)
-    resolve(true)
-})
-
 
 /**
  * @description Load Express Routes Dynamically
@@ -61,12 +57,7 @@ const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) => new
  * @param mainRoute : Route Prefix
  * @param logging : Routes Loading Logging
  */
-const LoadRoutes = async (
-    app: any,
-    routesDir: string,
-    routePrefix: string,
-    logging: boolean
-) =>
+const LoadRoutes = async (app: any, routesDir: string, routePrefix: string, logging: boolean) =>
     new Promise(async (resolve, reject) => {
         if (fs.existsSync(routesDir)) {
             const routesList: any = await findAllRoutes(routesDir, routePrefix)

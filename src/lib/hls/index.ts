@@ -7,12 +7,7 @@ import fsProvider from "./fsProvider"
 interface options {
     hlsDir: string
 }
-function HLSServer(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-    options: options
-) {
+function HLSServer(req: Request, res: Response, next: NextFunction, options: options) {
     const CONTENT_TYPE = {
         MANIFEST: "application/vnd.apple.mpegurl",
         SEGMENT: "video/MP2T",

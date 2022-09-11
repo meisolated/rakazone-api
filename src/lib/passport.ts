@@ -9,12 +9,7 @@ const _config = {
     callbackURL: config.googleAuthCallbackURL,
 }
 
-function verifyCallback(
-    accessToken: any,
-    refreshToken: any,
-    profile: any,
-    done: any
-) {
+function verifyCallback(accessToken: any, refreshToken: any, profile: any, done: any) {
     const user = {
         email: profile.email,
         name: profile.displayName,

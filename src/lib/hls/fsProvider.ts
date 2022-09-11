@@ -13,10 +13,7 @@ class fsProvider {
         cb(null, fs.createReadStream(req.filePath))
     }
     getManifestStream(req: any, cb: any) {
-        cb(
-            null,
-            fs.createReadStream(req.filePath, { highWaterMark: 64 * 1024 })
-        )
+        cb(null, fs.createReadStream(req.filePath, { highWaterMark: 64 * 1024 }))
     }
 }
 export default fsProvider
