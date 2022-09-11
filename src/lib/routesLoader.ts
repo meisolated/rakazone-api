@@ -1,33 +1,49 @@
 import fs from "fs"
+import { timeout } from "../functions"
 
-const loadFolderRoutes = (
-    app: any,
-    routesDir: string,
-    mainRoute: string,
-    disableLogging: boolean
-) => {
-    fs.readdir(routesDir, (err: any, files: any) => {
-        if (err) return err
-        files.forEach(async (file: any) => {
-            if (file.includes(".js")) {
+
+const findAllRoutes = (routesDir: string, routePrefix: string) => new Promise(async (resolve, _reject) => {
+    const routes: Array<Object> = []
+    const pushInRoutes = (dir: string, file: string, route: string) => routes.push({ path: dir + "/" + file, route: "/" + routePrefix + route })
+
+    const findInThisDir = (dir: string) => {
+        const files = fs.readdirSync(dir)
+        files.forEach(file => {
+            if (file.endsWith(".js")) {
                 let route = `/${file}`
-                route = routesDir.split("routes")[1] + route
+                route = dir.split("routes")[1] + route
                 route = route.split(".js")[0]
                 route = route.includes("index")
                     ? route.split("index")[0]
                     : route
-                route = "/" + mainRoute + route
-                if (!disableLogging) console.log(`Loading route: ${route}`)
-                await import(`${routesDir}/${file}`).then((fun) =>
-                    fun.default(app, route)
-                )
+                pushInRoutes(dir, file, route)
             } else {
-                const nextFolderPath = `${routesDir}/${file}`
-                loadFolderRoutes(app, nextFolderPath, mainRoute, disableLogging)
+                if (fs.lstatSync(dir + "/" + file).isDirectory()) {
+                    findInThisDir(dir + "/" + file)
+                } else {
+                    console.log(`Skipping this file ${dir + file}`)
+                }
             }
         })
+    }
+    findInThisDir(routesDir)
+    await timeout(2000)
+    resolve(routes)
+})
+
+const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) => {
+    routesList.forEach(async (route: any) => {
+        try {
+            if (logging) console.log(`Loading ${route.route} route.`)
+            await import(route.path).then((fun) => fun.default(app, route.route))
+
+        } catch (error) {
+            throw new Error
+        }
     })
+
 }
+
 
 /**
  * @description Load Express Routes Dynamically
@@ -36,16 +52,18 @@ const loadFolderRoutes = (
  * @param app: Express App
  * @param routesDir: Routes Full Directory Path
  * @param mainRoute : Route Prefix
- * @param disableLogging : Routes Loading Logging
+ * @param logging : Routes Loading Logging
  */
-export default function LoadRoutes(
+export default async function LoadRoutes(
     app: any,
     routesDir: string,
-    mainRoute: string,
-    disableLogging: boolean
+    routePrefix: string,
+    logging: boolean
 ) {
     if (fs.existsSync(routesDir)) {
-        loadFolderRoutes(app, routesDir, mainRoute, disableLogging)
+        const routesList: any = await findAllRoutes(routesDir, routePrefix)
+        console.log(`Found ${routesList.length} routes`)
+        LoadRoute(routesList, app, logging)
     } else {
         throw new Error("Routes directory not found")
     }

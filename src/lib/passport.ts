@@ -28,7 +28,7 @@ passport.use(new Strategy(_config, verifyCallback))
 
 passport.serializeUser(async (user: any, done) => {
     const now = Date.now()
-    const findUser = await Users.findOne({ userId: user.id })
+    const findUser = await Users.findOne({ email: user.email })
     if (!findUser) {
         const newUser = new Users()
         newUser.userId = user.id
