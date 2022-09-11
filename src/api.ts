@@ -27,21 +27,31 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
-app.use("/assets", express.static(config.assetsDir, { maxAge: 60 * 60 * 24 * 30 }))
-app.use("/thumbnails", express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 24 * 30 }))
+app.use(
+    "/assets",
+    express.static(config.assetsDir, { maxAge: 60 * 60 * 24 * 30 })
+)
+app.use(
+    "/thumbnails",
+    express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 24 * 30 })
+)
 app.get("/", (_req: Request, res: Response) => {
     res.send({ message: "Something is missing over here", code: 200 })
 })
 
-LoadRoutes(app, routesDirPath, "api", true)
-
-setTimeout(() => {
-    app.use("/watch", (req, res, next) => HLSServer(req, res, next, { hlsDir: config.videosDir }))
+LoadRoutes(app, routesDirPath, "api", true).then(() => {
+    app.use("/watch", (req, res, next) =>
+        HLSServer(req, res, next, { hlsDir: config.videosDir })
+    )
 
     app.listen(port, () => {
         console.log(`Server running on port http://localhost:` + port)
     })
-}, 5000)
+}).catch((e: any) => {
+    throw new Error(e)
+})
+
+
 
 
 /** -------------------------------------------------------------------------------------------------- 

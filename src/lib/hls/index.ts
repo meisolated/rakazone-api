@@ -4,11 +4,15 @@ import url from "url"
 import zlib from "zlib"
 import fsProvider from "./fsProvider"
 
-
 interface options {
     hlsDir: string
 }
-function HLSServer(req: Request, res: Response, next: NextFunction, options: options) {
+function HLSServer(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    options: options
+) {
     const CONTENT_TYPE = {
         MANIFEST: "application/vnd.apple.mpegurl",
         SEGMENT: "video/MP2T",
@@ -27,7 +31,6 @@ function HLSServer(req: Request, res: Response, next: NextFunction, options: opt
     req.acceptsCompression = ae.match(/\bgzip\b/)
 
     provider.exists(req, (err: any, exists: any) => {
-
         if (err) {
             res.statusCode = 500
             res.end()
@@ -50,8 +53,6 @@ function HLSServer(req: Request, res: Response, next: NextFunction, options: opt
     })
 
     function _writeManifest(req: Request, res: Response, next: NextFunction) {
-
-
         provider.getManifestStream(req, (err: any, stream: any) => {
             if (err) {
                 res.statusCode = 500
