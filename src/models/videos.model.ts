@@ -17,7 +17,7 @@ interface videos {
 export default new Schema<videos>({
     videoId: { type: String, required: true },
     platform: { type: String, required: true },
-    title: { type: String, required: true },
+    title: { type: String, required: true, index: true },
     type: { type: String, required: true },
     publishedAt: { type: Number, required: true },
     duration: { type: Number, required: true },
