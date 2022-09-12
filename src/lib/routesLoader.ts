@@ -13,10 +13,10 @@ const findAllRoutes = (routesDir: string, routePrefix: string) =>
         const findInThisDir = (dir: string) => {
             const files = fs.readdirSync(dir)
             files.forEach((file) => {
-                if (file.endsWith(".js")) {
+                if (file.endsWith(".js") || file.endsWith(".ts")) {
                     let route = `/${file}`
                     route = dir.split("routes")[1] + route
-                    route = route.split(".js")[0]
+                    route = file.endsWith(".js") ? route.split(".js")[0] : route.split(".ts")[0]
                     route = route.includes("index") ? route.split("index")[0] : route
                     pushInRoutes(dir, file, route)
                 } else {
@@ -29,7 +29,7 @@ const findAllRoutes = (routesDir: string, routePrefix: string) =>
             })
         }
         findInThisDir(routesDir)
-        await timeout(2000)
+        await timeout(1000)
         resolve(routes)
     })
 
@@ -44,7 +44,7 @@ const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) =>
                 throw new Error(error)
             }
         })
-        await timeout(2000)
+        await timeout(1000)
         resolve(true)
     })
 

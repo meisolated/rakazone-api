@@ -1,6 +1,6 @@
 import { Schema } from "mongoose"
 
-interface analytics {
+export interface _analytics {
     ip: string
     city: string
     region: string
@@ -22,7 +22,7 @@ interface analytics {
     browserHeight: number
 }
 
-export default new Schema<analytics>({
+export default new Schema<_analytics>({
     ip: { type: String, required: true },
     city: { type: String, required: false },
     region: { type: String, required: false },
@@ -42,4 +42,4 @@ export default new Schema<analytics>({
     browserVersion: { type: String, required: false },
     browserWidth: { type: Number, required: false },
     browserHeight: { type: Number, required: false },
-})
+}, { timestamps: true })

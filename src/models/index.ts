@@ -19,8 +19,11 @@ export const Sessions = connection.model("Sessions", sessionModel)
 export const Live = connection.model("Live", liveModel)
 export const Popups = connection.model("Popups", popupModel)
 export const Redirects = connection.model("Redirects", redirectsModel)
-export const ServerSettings = connection.model("ServerSettings", serverSettingsModel)
+export const ServerSettings = connection.model(
+    "ServerSettings",
+    serverSettingsModel
+)
 export const StreamerData = connection.model("StreamerData", streamerDataModel)
-export const VisitorLog = connection.model("VisitorLog", analyticsModel)
+export const Analytics = connection.model("Analytics", analyticsModel)
 export const WatchHistory = connection.model("WatchHistory", watchHistoryModel)
 export const WatchLog = connection.model("WatchLog", watchLogModel)

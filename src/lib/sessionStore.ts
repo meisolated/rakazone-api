@@ -1,8 +1,8 @@
-//TODO: Will make this work later
-//TODO: https://github.com/mongodb-js/connect-mongodb-session/blob/master/index.js
+// // TODO: Will make this work later
+// // TODO: https://github.com/mongodb-js/connect-mongodb-session/blob/master/index.js
 // import session from "express-session"
 // import config from "../config"
-// import { Session } from "../models"
+// import { Sessions } from "../models"
 
 // interface ses {
 //     path?: string,
@@ -15,7 +15,7 @@
 //  */
 // export default class MongoStore extends session.Store {
 //     get(sid: string, callback: (err: any, session?: session.SessionData | null | undefined) => void): void {
-//         Session.findOne({ sessionId: sid }).then(_session => {
+//         Sessions.findOne({ sessionId: sid }).then(_session => {
 //             if (typeof _session.data == null) return callback && callback(`Session not found`)
 //             console.log("session")
 //             console.log(_session)
@@ -35,7 +35,7 @@
 //             originalMaxAge: null,
 //             httpOnly: true
 //         }
-//         const newSession = new Session()
+//         const newSession = new Sessions()
 //         newSession._id = sid
 //         newSession.expires = expires
 //         newSession.data = sess
@@ -44,7 +44,7 @@
 //         }).catch(e => callback && callback(`Error Setting ${sid}: ${e.message}`))
 //     }
 //     destroy(sid: string, callback?: ((err?: any) => void) | undefined) {
-//         Session.deleteOne({ _id: sid }).then(() => {
+//         Sessions.deleteOne({ _id: sid }).then(() => {
 //             return callback && callback()
 //         }).catch(e => {
 //             new Error(`Error destroying ${sid} :${e.message}`)

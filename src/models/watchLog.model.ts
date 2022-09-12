@@ -11,7 +11,6 @@ interface watchLog {
     vi: string
     platform: string
     browser: string
-    timestamp: number
 }
 
 export default new Schema<watchLog>({
@@ -25,5 +24,4 @@ export default new Schema<watchLog>({
     vi: { type: String, required: true },
     platform: { type: String, required: true },
     browser: { type: String, required: true },
-    timestamp: { type: Number, required: true },
-})
+}, { timestamps: true })

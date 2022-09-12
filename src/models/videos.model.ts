@@ -26,4 +26,4 @@ export default new Schema<videos>({
     likeCount: { type: Number, required: true },
     commentCount: { type: Number, required: true },
     status: { type: Boolean, required: true },
-})
+}, { timestamps: true })

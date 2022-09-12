@@ -37,8 +37,15 @@ passport.serializeUser(async (user: any, done) => {
         await newUser.save()
         done(null, user.id)
     } else {
+        findUser.userId = user.id
+        findUser.loginType = "google"
+        findUser.name = user.name
+        findUser.email = user.email
+        findUser.profilePic = user.picture
+        findUser.createdOn = now
+        findUser.status = true
         findUser.lastLogin = now
-        findUser.save()
+        await findUser.save()
         done(null, user.id)
     }
 })

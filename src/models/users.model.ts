@@ -20,4 +20,4 @@ export default new Schema<user>({
     createdOn: { type: Number, required: true },
     lastLogin: { type: Number, required: true },
     status: { type: Boolean, required: true },
-})
+}, { timestamps: true })
