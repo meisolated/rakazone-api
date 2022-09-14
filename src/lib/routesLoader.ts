@@ -35,10 +35,12 @@ const findAllRoutes = (routesDir: string, routePrefix: string) =>
 
 const LoadRoute = (routesList: Array<Object>, app: any, logging: boolean) =>
     new Promise(async (resolve, reject) => {
-        routesList.forEach(async (route: any) => {
+        routesList.map(async (route: any, index) => {
             try {
-                if (logging) console.log(`Loading ${route.route} route.`)
-                await import(route.path).then((fun) => fun.default(app, route.route))
+                await import(route.path).then((fun) => {
+                    if (logging) console.log(`Loading ${route.route}`)
+                    return fun.default(app, route.route)
+                })
             } catch (error: any) {
                 reject()
                 throw new Error(error)

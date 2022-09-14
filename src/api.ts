@@ -34,7 +34,6 @@ app.use("/thumbnails", express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 
 app.get("/", (_req: Request, res: Response) => {
     res.send({ message: "Something is missing over here", code: 200 })
 })
-
 LoadRoutes(app, routesDirPath, "api", true)
     .then(() => {
         app.use("/watch", (req, res, next) => HLSServer(req, res, next, { hlsDir: config.videosDir }))
@@ -46,6 +45,7 @@ LoadRoutes(app, routesDirPath, "api", true)
     .catch((e: any) => {
         throw new Error(e)
     })
+
 
 /** -------------------------------------------------------------------------------------------------- 
  * @videos these videos are gonna be based on user or session history.
