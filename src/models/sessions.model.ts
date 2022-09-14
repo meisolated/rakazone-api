@@ -7,6 +7,6 @@ interface sessions {
 
 export default new Schema<sessions>({
     _id: { type: String, required: true },
-    expires: { type: String, required: true },
+    expires: { type: Date, required: true },
     data: { type: Object, required: true },
 })

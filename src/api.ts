@@ -9,6 +9,7 @@ import passport from "passport"
 import * as path from "path"
 import config from "./config"
 import HLSServer from "./lib/hls"
+import middleware from "./lib/middleware"
 import LoadRoutes from "./lib/routesLoader"
 import session from "./lib/session"
 
@@ -27,6 +28,7 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true, limit: "1kb" }))
 app.use(express.json({ limit: "1kb" }))
+app.use(middleware)
 app.use("/assets", express.static(config.assetsDir, { maxAge: 60 * 60 * 24 * 30 }))
 app.use("/thumbnails", express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 24 * 30 }))
 app.get("/", (_req: Request, res: Response) => {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "module": "module",
   "scripts": {
-    "dev": "tsc && BUILD_TYPE=dev node dist/api.js",
+    "dev": "nodemon",
     "build": "tsc",
     "start": "tsc && NODE_ENV=production node dist/api.js",
     "pm2": "pm2",
