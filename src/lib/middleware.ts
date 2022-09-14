@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, Response } from "express"
 
 export default function middleware(req: Request, res: Response, next: NextFunction) {
     if (req.path.includes("/session")) return next()

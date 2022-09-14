@@ -5,7 +5,10 @@ interface watchHistory {
     videoId: string
 }
 
-export default new Schema<watchHistory>({
-    userId: { type: String, required: true },
-    videoId: { type: String, required: true },
-}, { timestamps: true })
+export default new Schema<watchHistory>(
+    {
+        userId: { type: String, required: true },
+        videoId: { type: String, required: true },
+    },
+    { timestamps: true }
+)
