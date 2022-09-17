@@ -18,4 +18,4 @@ export default new Schema<live>({
     publishedAt: { type: Number, required: true },
     status: { type: Boolean, required: true },
     lastUpdate: { type: Number, required: true },
-})
+}, { timestamps: true })

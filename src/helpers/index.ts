@@ -1,4 +1,4 @@
 export const userProjection = {
     __v: false,
-    _id: false
+    _id: false,
 }

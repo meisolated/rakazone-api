@@ -6,9 +6,11 @@ interface streamerData {
     status: boolean
 }
 
-export default new Schema<streamerData>({
-    key: { type: String, required: true, unique: true },
-    value: { type: String, required: true },
-    status: { type: Boolean, required: true },
-
-}, { timestamps: true })
+export default new Schema<streamerData>(
+    {
+        key: { type: String, required: true, unique: true },
+        value: { type: String, required: true },
+        status: { type: Boolean, required: true },
+    },
+    { timestamps: true }
+)

@@ -25,5 +25,3 @@ export const Analytics = connection.model("Analytics", analyticsModel)
 export const WatchHistory = connection.model("WatchHistory", watchHistoryModel)
 export const WatchLog = connection.model("WatchLog", watchLogModel)
 // connection.collection("videos").createIndex({ title: "text" })
-
-
