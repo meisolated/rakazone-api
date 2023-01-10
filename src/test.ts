@@ -7,3 +7,4 @@ const main = async () => {
     console.log(b)
 }
 main()
+console.log("Hello World")
