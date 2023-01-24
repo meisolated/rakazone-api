@@ -23,3 +23,10 @@ export function throwError(err: any) {
     logger.error(JSON.stringify(err))
     return err
 }
+
+export const UrlExists = (url: any) =>
+    new Promise((resolve, reject) => {
+        fetch(url, { method: "head" }).then(function (status) {
+            resolve(status.ok)
+        })
+    })

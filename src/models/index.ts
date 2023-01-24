@@ -11,6 +11,8 @@ import videosModel from "./videos.model"
 import watchHistoryModel from "./watchHistory.model"
 import watchLogModel from "./watchLog.model"
 import youtubeAPIModel from "./youtubeAPI.model"
+import emailsModel from "./emails.model"
+import contactModel from "./contact.model"
 
 const connection = new Mongoose().connection()
 
@@ -26,4 +28,6 @@ export const Analytics = connection.model("Analytics", analyticsModel)
 export const WatchHistory = connection.model("WatchHistory", watchHistoryModel)
 export const WatchLog = connection.model("WatchLog", watchLogModel)
 export const YoutubeAPI = connection.model("YoutubeAPI", youtubeAPIModel)
+export const Emails = connection.model("emailNewsletter", emailsModel)
+export const Contact = connection.model("contact", contactModel)
 // connection.collection("videos").createIndex({ title: "text" })
