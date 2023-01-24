@@ -14,6 +14,8 @@ export default function (app: any, path: any) {
             phone,
             subject,
             message,
+            status: "unread",
+            reply: "no reply",
             timestamp: timestamp,
         })
             .then(() => {})

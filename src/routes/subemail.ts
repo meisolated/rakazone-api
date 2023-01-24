@@ -10,6 +10,7 @@ export default function (app: any, path: any) {
         const timestamp = Date.now()
         Emails.create({
             email,
+            subscribed: true,
             timestamp: timestamp,
         })
             .then(() => {})
