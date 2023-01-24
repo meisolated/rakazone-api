@@ -60,4 +60,15 @@ LoadRoutes(app, routesDirPath, "api", true)
  * !watchLog : currently not using this
  * *auth already done
     --------------------------------------------------------------------------------------------------
+
+    Server Settings 
+    -- onSitePlayer 
+    -- onSiteMobilePlayer
+    -- onSiteDesktopPlayer
+    -- onSiteAds
+    -- onSiteMobileAds
+    -- onSiteDesktopAds
+    -- onSitePlayerStartResolution
+    -- onSitePlayerPermanentResolution
+    -- 
  */
