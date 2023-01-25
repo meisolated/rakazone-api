@@ -8,4 +8,3 @@ const main = async () => {
 }
 main()
 console.log("Hello World")
-console.log("pratik")

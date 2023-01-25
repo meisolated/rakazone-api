@@ -24,4 +24,4 @@ export const CheckLoco = (loco_username: string) =>
         return resolve(liveData)
     })
 
-export const CheckBoth = () => new Promise((reslove, reject) => {})
+export const CheckBoth = () => new Promise((resolve, reject) => { })
