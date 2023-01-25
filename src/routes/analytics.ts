@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import logger from "../logger"
 import { Analytics } from "../models"
 import { _analytics } from "./../models/analytics.model"
 
@@ -33,9 +34,13 @@ export default function (app: any, path: any) {
         })
             .then(() => {})
             .catch((e) => {
-                console.log(e)
+                logger.info(e)
             })
 
-        return res.json({})
+        return res.json({
+            message: "Data added",
+            status: "success",
+            code: 200,
+        })
     })
 }

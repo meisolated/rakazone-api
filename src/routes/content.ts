@@ -9,12 +9,17 @@ export default function (app: any, path: any) {
             const videos = await videosLogic(req.user)
             const streamerdata = await StreamerData.find({}, userProjection)
             const live = await Live.find({}, userProjection)
-            return res.send({ videos, streamerdata, live })
-
+            return res.send({
+                message: "Data fetched",
+                status: "success",
+                code: 200,
+                videos,
+                streamerdata,
+                live,
+            })
         } catch (error) {
             console.log(error)
-            return res.send({ code: 500, message: "Server Error" })
+            return res.send({ code: 500, message: "Server Error", status: "error" })
         }
-
     })
 }

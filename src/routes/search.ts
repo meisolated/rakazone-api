@@ -5,6 +5,11 @@ export default function (app: any, path: any) {
     app.get(path, async (req: Request, res: Response) => {
         if (!req.body.query) return res.json({ message: "Invalid request" })
         const results = await Videos.find({ $text: { $search: req.body.query } })
-        return res.send({ results })
+        return res.send({
+            message: "Data fetched",
+            status: "success",
+            code: 200,
+            results,
+        })
     })
 }

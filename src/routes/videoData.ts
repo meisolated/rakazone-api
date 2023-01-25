@@ -5,7 +5,17 @@ export default function (app: any, path: any) {
     app.get(path, async (req: Request, res: Response) => {
         if (!req.body.videoId) return res.send({ message: "Invalid Request", code: 400 })
         const findVideo = await Videos.find({ videoId: req.body.videoId })
-        if (findVideo) return res.send({ video: findVideo })
-        return res.send({ message: "Video not found", code: 404 })
+        if (findVideo)
+            return res.send({
+                message: "Data fetched",
+                status: "success",
+                code: 200,
+                video: findVideo,
+            })
+        return res.send({
+            status: "error",
+            message: "Video not found",
+            code: 404,
+        })
     })
 }

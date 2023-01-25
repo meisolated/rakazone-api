@@ -14,6 +14,10 @@ export default function (app: any, path: any) {
         const randomSession = crypto.randomBytes(32).toString("hex")
         res.cookie("WC", randomSession, { maxAge: 30 * 24 * 60 * 60, httpOnly: true })
         Sessions.create({ _id: randomSession, expires: now + 30 * 24 * 60 * 60, data: { type: "local", ip: ip } })
-        return res.send({})
+        return res.send({
+            message: "Session created.",
+            status: "success",
+            code: 200,
+        })
     })
 }
