@@ -31,19 +31,19 @@ app.use(middleware)
 app.use("/assets", express.static(config.assetsDir, { maxAge: 60 * 60 * 24 * 30 }))
 app.use("/thumbnails", express.static(config.thumbnailsDir, { maxAge: 60 * 60 * 24 * 30 }))
 app.get("/", (_req: Request, res: Response) => {
-    res.send({ message: "Something is missing over here", code: 200 })
+   res.send({ message: "Something is missing over here", code: 200 })
 })
 LoadRoutes(app, routesDirPath, "api", true)
-    .then(() => {
-        app.use("/watch", (req, res, next) => HLSServer(req, res, next, { hlsDir: config.videosDir }))
+   .then(() => {
+      app.use("/watch", (req, res, next) => HLSServer(req, res, next, { hlsDir: config.videosDir }))
 
-        app.listen(port, () => {
-            console.log(`Server running on port http://localhost:` + port)
-        })
-    })
-    .catch((e: any) => {
-        throw new Error(e)
-    })
+      app.listen(port, () => {
+         console.log(`Server running on port http://localhost:` + port)
+      })
+   })
+   .catch((e: any) => {
+      throw new Error(e)
+   })
 
 /** -------------------------------------------------------------------------------------------------- 
  * @videos these videos are gonna be based on user or session history.
