@@ -2,7 +2,6 @@ import { shuffle } from "../functions"
 import { userProjection } from "../helpers"
 import { Videos, WatchHistory } from "../models"
 export default async function videosLogic(user?: any) {
-
     const sortRecent = (a: any, b: any) => a.publishedAt - b.publishedAt
 
     const videos: any = await Videos.find({ type: ["vlog", "funny", "live_stream", "irl"] }, userProjection)
@@ -12,7 +11,6 @@ export default async function videosLogic(user?: any) {
         const userHistory = await WatchHistory.find({ userId: user })
         if (userHistory) userHistory.map((h: any) => ids.push(h.videoId))
     }
-
 
     const localVideosList = videos.filter((video: any) => video.platform == "local" && !ids.includes(video.videoId))
     const vlogsList = videos.filter((video: any) => video.type == "vlog" && !ids.includes(video.videoId))

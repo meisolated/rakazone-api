@@ -14,7 +14,7 @@ import session from "./lib/session"
 
 const routesDirPath = path.join(__dirname, "/routes")
 const app: Express = express()
-const port = process.env.BUILD_TYPE == "dev" ? 5001 : 3001
+const port = config.PORT
 
 app.use(helmet())
 app.use(session)
